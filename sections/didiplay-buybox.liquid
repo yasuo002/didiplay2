@@ -266,7 +266,7 @@
     var bt = document.getElementById('buyTotal'); if (bt) bt.textContent = money(total);
     var at = document.getElementById('atcTotal'); if (at) at.textContent = money(total);
     var sa = document.getElementById('saPrice'); if (sa) sa.textContent = money(total);
-    if (qtyInput) qtyInput.value = bundleQty;
+    if (qtyInput) qtyInput.value = 1;
     // bundle card prices
     root.querySelectorAll('[data-bundle]').forEach(function (card) {
       var q = parseInt(card.getAttribute('data-qty'), 10);
