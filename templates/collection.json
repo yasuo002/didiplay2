@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "grid": {
+      "type": "didiplay-collection",
+      "settings": {
+        "eyebrow": "The didiplay Collection",
+        "heading": "All Products",
+        "subheading": "Carefully designed, parent-approved, and built to keep kids happily creating — screen-free.",
+        "show_banner": true,
+        "banner_heading": "Bundle & save 15%",
+        "banner_text": "Get the Drawing Robot + 150-Card Mega Pack + Pen Refill together.",
+        "banner_cta": "Build My Bundle →"
+      }
+    }
+  },
+  "order": [
+    "grid"
+  ]
+}

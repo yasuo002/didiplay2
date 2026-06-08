@@ -1,0 +1,33 @@
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+<section class="below-fold section-soft">
+  <div class="container" style="max-width:620px;text-align:center">
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </div>
+    <div class="reveal" style="background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:var(--shadow-sm)">
+      {%- if shop.customer_accounts_enabled -%}
+        <p style="margin-bottom:18px;color:var(--body)">Sign in to your account to see live order status and tracking.</p>
+        <a href="{{ routes.account_url }}" class="btn btn-primary btn-lg btn-block">View My Orders</a>
+      {%- else -%}
+        <p style="margin-bottom:18px;color:var(--body)">Your tracking link is in your confirmation email. Tap it any time to see where your order is.</p>
+        <a href="mailto:{{ section.settings.support_email | default: 'hello@didiplay.store' }}" class="btn btn-primary btn-lg btn-block">Email Support for Help</a>
+      {%- endif -%}
+      <p style="margin-top:18px;font-size:.9rem;color:var(--muted)">{{ section.settings.help_note }}</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Track order",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Track Order" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Where's My Order?" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Check the status of your didiplay order in a couple of taps." },
+    { "type": "text", "id": "support_email", "label": "Support email", "default": "hello@didiplay.store" },
+    { "type": "textarea", "id": "help_note", "label": "Help note", "default": "Most orders ship within 24 hours and arrive in 5–9 business days." }
+  ],
+  "presets": [{ "name": "Track order" }]
+}
+{% endschema %}

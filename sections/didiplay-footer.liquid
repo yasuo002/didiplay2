@@ -1,0 +1,86 @@
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+<footer class="site-footer" id="shopify-section-{{ section.id }}-inner">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="{{ routes.root_url }}" class="logo">{{ section.settings.brand_name | default: 'didiplay' }}</a>
+      <p>{{ section.settings.tagline | default: 'Where little hands learn to create.' }}</p>
+      <div class="payments">
+        {%- assign chips = section.settings.payment_chips | default: 'VISA,MC,PayPal,Apple Pay,Shop Pay' | split: ',' -%}
+        {%- for chip in chips -%}<span class="pay-chip">{{ chip | strip }}</span>{%- endfor -%}
+      </div>
+    </div>
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'column' -%}
+          <div class="footer-col" {{ block.shopify_attributes }}>
+            <h4>{{ block.settings.heading }}</h4>
+            {%- assign links = block.settings.links | newline_to_br | split: '<br />' -%}
+            {%- for line in links -%}
+              {%- assign parts = line | strip | split: '|' -%}
+              {%- if parts.size > 0 and parts.first != '' -%}
+                <a href="{{ parts[1] | default: '#' | strip }}">{{ parts[0] | strip }}</a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="{{ routes.all_products_collection_url }}">Drawing Robot</a>
+        <a href="{{ routes.all_products_collection_url }}">150-Card Mega Pack</a>
+        <a href="{{ routes.all_products_collection_url }}">Color Pen Refills</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="/pages/faq">FAQ</a>
+        <a href="/pages/shipping">Shipping</a>
+        <a href="/pages/returns">Returns</a>
+        <a href="/pages/contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/pages/about">Our Story</a>
+        <a href="/#reviews">Reviews</a>
+        <a href="/pages/safety">Safety</a>
+        <a href="/pages/privacy">Privacy</a>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="container footer-bottom">
+    <div>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.rights | default: 'All rights reserved.' }}</div>
+    <div class="socials">
+      {%- if section.settings.instagram != blank -%}<a href="{{ section.settings.instagram }}" aria-label="Instagram">📷</a>{%- endif -%}
+      {%- if section.settings.tiktok != blank -%}<a href="{{ section.settings.tiktok }}" aria-label="TikTok">🎵</a>{%- endif -%}
+      {%- if section.settings.youtube != blank -%}<a href="{{ section.settings.youtube }}" aria-label="YouTube">▶</a>{%- endif -%}
+      {%- if section.settings.facebook != blank -%}<a href="{{ section.settings.facebook }}" aria-label="Facebook">f</a>{%- endif -%}
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "brand_name", "label": "Brand name", "default": "didiplay" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Where little hands learn to create." },
+    { "type": "text", "id": "payment_chips", "label": "Payment chips (comma separated)", "default": "VISA,MC,PayPal,Apple Pay,Shop Pay" },
+    { "type": "url", "id": "instagram", "label": "Instagram URL" },
+    { "type": "url", "id": "tiktok", "label": "TikTok URL" },
+    { "type": "url", "id": "youtube", "label": "YouTube URL" },
+    { "type": "url", "id": "facebook", "label": "Facebook URL" },
+    { "type": "text", "id": "rights", "label": "Rights text", "default": "All rights reserved." }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Link column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+        { "type": "textarea", "id": "links", "label": "Links (one per line: Label | /url)", "default": "Drawing Robot | /products/drawing-robot-for-kids\n150-Card Mega Pack | /collections/all\nColor Pen Refills | /collections/all" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

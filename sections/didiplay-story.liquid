@@ -1,0 +1,32 @@
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+<section class="below-fold {{ section.settings.bg_class }}">
+  <div class="container" style="max-width:860px">
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="reveal" style="font-size:1.08rem;color:var(--body);line-height:1.7">
+      {{ section.settings.body }}
+    </div>
+    {%- if section.settings.cta_label != blank -%}
+      <div class="center reveal" style="margin-top:32px">
+        <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="btn btn-primary btn-lg">{{ section.settings.cta_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Story / rich text",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Where Little Hands Learn to Create" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>didiplay started with one simple wish: give kids a way to fall in love with drawing — without another screen. Our Drawing Robot guides little artists stroke by stroke, building focus, confidence, and a lifelong love of making things by hand.</p><p>Today, more than 12,400 families in 47 countries draw with didiplay. We obsess over child-safe materials, thoughtful design, and support that treats you like a neighbor, not a ticket number.</p>" },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "", "options": [ {"value":"","label":"White"}, {"value":"section-soft","label":"Soft"}, {"value":"section-pink","label":"Pink"} ] },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop the Drawing Robot" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" }
+  ],
+  "presets": [{ "name": "Story / rich text" }]
+}
+{% endschema %}

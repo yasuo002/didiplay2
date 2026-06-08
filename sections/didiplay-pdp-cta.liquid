@@ -1,0 +1,47 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+<section class="final-cta-pdp">
+  <div class="container">
+    <div class="cta-card-pdp reveal">
+      <div class="ctp-left">
+        {%- if section.settings.scarcity != blank -%}<span class="scarcity"><span class="pulse-dot"></span> {{ section.settings.scarcity }}</span>{%- endif -%}
+        <h2>{{ section.settings.heading }}</h2>
+        <p>{{ section.settings.subheading }}</p>
+        {%- if product != empty and product.selected_or_first_available_variant -%}
+          {%- assign v = product.selected_or_first_available_variant -%}
+          <div class="ctp-price">
+            <span class="ctp-now price">{{ v.price | money }}</span>
+            {%- if v.compare_at_price > v.price -%}
+              <span class="ctp-was price">{{ v.compare_at_price | money }}</span>
+              {%- assign pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round -%}
+              <span class="ctp-pill">SAVE {{ pct }}%</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        <a href="{{ section.settings.cta_link | default: '#buySection' }}" class="btn btn-lg pulse" style="background:#fff;color:var(--pink);font-family:Sora,sans-serif;font-weight:800;padding:20px 36px;border-radius:999px">{{ section.settings.cta_label }}</a>
+      </div>
+      <div class="ctp-right">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 600 | image_tag: alt: section.settings.heading, loading: 'lazy' }}
+        {%- elsif product != empty and product.featured_media -%}
+          {{ product.featured_media | image_url: width: 600 | image_tag: alt: product.title, loading: 'lazy' }}
+        {%- else -%}
+          <div style="aspect-ratio:1/1;width:100%;background:#FFE3EE;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#FF6B9D;font-family:Sora,sans-serif;font-weight:800;font-size:1.6rem">Drawing Robot</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Product final CTA",
+  "settings": [
+    { "type": "text", "id": "scarcity", "label": "Scarcity", "default": "Only 7 left at this price" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Give Them a Reason to Put the Tablet Down" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Screen-free creativity that actually teaches. Free shipping, 30-day guarantee." },
+    { "type": "image_picker", "id": "image", "label": "Image (defaults to product image)" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Add to Cart — 43% Off" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" }
+  ],
+  "presets": [{ "name": "Product final CTA" }]
+}
+{% endschema %}

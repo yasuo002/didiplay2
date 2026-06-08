@@ -1,0 +1,13 @@
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+<section class="below-fold" style="text-align:center">
+  <div class="container" style="max-width:560px">
+    <div style="font-size:4rem;margin-bottom:8px">🎨</div>
+    <h1>Page not found</h1>
+    <p style="color:var(--body);font-size:1.08rem;margin:12px 0 28px">The page you're looking for wandered off. Let's get you back to the good stuff.</p>
+    <a href="{{ routes.root_url }}" class="btn btn-primary btn-lg">Back to Home</a>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn-secondary btn-lg" style="margin-left:8px">Shop All</a>
+  </div>
+</section>
+{% schema %}
+{ "name": "404", "settings": [], "presets": [{ "name": "404" }] }
+{% endschema %}

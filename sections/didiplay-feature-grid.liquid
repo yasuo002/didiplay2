@@ -1,0 +1,60 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+<section class="below-fold {{ section.settings.bg_class }}">
+  <div class="container">
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+    <div class="{{ section.settings.grid_class | default: 'benefits-grid' }}">
+      {%- for block in section.blocks -%}
+        <div class="{{ section.settings.card_class | default: 'b-card' }} reveal" {{ block.shopify_attributes }}>
+          <div class="{{ section.settings.icon_class | default: 'b-icon' }}" style="background:{{ block.settings.icon_bg }};color:{{ block.settings.icon_fg | default: '#FF6B9D' }}">{{ block.settings.icon }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Feature grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What It Actually Does" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Real Skills, Real Joy, Real Screen-Free Play" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Six ways the didiplay Drawing Robot grows with your child — from first scribble to confident creator." },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "", "options": [ {"value":"","label":"White"}, {"value":"section-soft","label":"Soft"}, {"value":"section-pink","label":"Pink"}, {"value":"section-purple","label":"Purple"} ] },
+    { "type": "select", "id": "grid_class", "label": "Grid", "default": "benefits-grid", "options": [ {"value":"benefits-grid","label":"3-up benefits"}, {"value":"features-grid","label":"3-up features"} ] },
+    { "type": "select", "id": "card_class", "label": "Card style", "default": "b-card", "options": [ {"value":"b-card","label":"Benefit card"}, {"value":"f-card","label":"Feature card"} ] },
+    { "type": "select", "id": "icon_class", "label": "Icon style", "default": "b-icon", "options": [ {"value":"b-icon","label":"Benefit icon"}, {"value":"f-icon","label":"Feature icon"} ] }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "✏️" },
+        { "type": "text", "id": "icon_bg", "label": "Icon bg", "default": "#FFF1F6" },
+        { "type": "text", "id": "icon_fg", "label": "Icon color", "default": "#FF6B9D" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Step-by-Step Drawing" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "The robot arm draws each picture so kids can follow, trace, and master it." }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "presets": [
+    {
+      "name": "Feature grid",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "✏️", "icon_bg": "#FFF1F6", "icon_fg": "#FF6B9D", "title": "Step-by-Step Drawing", "body": "The robot arm draws each picture so kids can follow, trace, and master it." } },
+        { "type": "feature", "settings": { "icon": "🧠", "icon_bg": "#F4EEFF", "icon_fg": "#7C3AED", "title": "Builds Real Skills", "body": "Strengthens hand-eye coordination, focus, and early writing ability." } },
+        { "type": "feature", "settings": { "icon": "🎴", "icon_bg": "#E0FAF2", "icon_fg": "#2BC4B0", "title": "150+ Drawing Cards", "body": "Animals, plants, transport, food and more — endless variety keeps kids hooked." } },
+        { "type": "feature", "settings": { "icon": "📵", "icon_bg": "#FFF1F6", "icon_fg": "#FF6B9D", "title": "Zero Screens, Zero Apps", "body": "Pure, healthy, hands-on play. Nothing to download, nothing to plug them into." } },
+        { "type": "feature", "settings": { "icon": "🎨", "icon_bg": "#F4EEFF", "icon_fg": "#7C3AED", "title": "Color Perception", "body": "Guided coloring teaches kids to recognize shapes and combine colors with confidence." } },
+        { "type": "feature", "settings": { "icon": "🛡️", "icon_bg": "#E0FAF2", "icon_fg": "#2BC4B0", "title": "Safe & Sturdy", "body": "Child-safe materials, rounded design, and rechargeable via USB — built for little hands." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

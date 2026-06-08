@@ -1,0 +1,130 @@
+/* ====================================================================
+   didiplay — mobile hardening layer (loaded after styles.css/product/index)
+   Fixes phone layout so every page looks good at 360–430px and is fast.
+==================================================================== */
+
+/* ---- Cart drawer item rows (Shopify-wired drawer) ---- */
+.cart-item{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--line)}
+.cart-item img{width:64px;height:64px;object-fit:cover;border-radius:12px}
+.ci-name{font-weight:700;color:var(--ink);font-size:.95rem;line-height:1.25}
+.ci-variant{font-size:.82rem;color:var(--muted);margin-top:2px}
+.ci-qty{display:inline-flex;align-items:center;gap:10px;margin-top:8px;border:1px solid var(--line);
+  border-radius:999px;padding:4px 6px;width:max-content}
+.ci-qty button{width:26px;height:26px;border-radius:50%;background:var(--bg-soft);font-size:1rem;line-height:1;color:var(--ink)}
+.ci-qty span{min-width:18px;text-align:center;font-weight:700}
+.ci-right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.ci-remove{color:var(--muted);font-size:1.2rem;line-height:1}
+.ci-price{font-weight:800;color:var(--ink)}
+.cart-items{padding:0 4px}
+
+/* ---- Global mobile niceties ---- */
+@media (max-width: 768px){
+  html{ -webkit-text-size-adjust:100%; }
+  .container{ padding:0 18px; }
+  section{ padding:48px 0; }
+  h1{ font-size:clamp(1.9rem,8vw,2.4rem); line-height:1.12; }
+  h2{ font-size:clamp(1.5rem,6.4vw,2rem); }
+  .section-head{ margin-bottom:30px; }
+  .section-head p{ font-size:1rem; }
+  /* tap targets */
+  .btn{ min-height:48px; }
+  .icon-btn{ width:44px; height:44px; }
+  /* announcement bar a touch smaller */
+  .announce{ font-size:.8rem; padding:8px 0; }
+  /* buttons go full width where they were inline */
+  .hero-ctas{ flex-direction:column; }
+  .hero-ctas .btn{ width:100%; }
+}
+
+/* ---- Home hero & art on phones ---- */
+@media (max-width: 768px){
+  .hero{ padding:28px 0 44px; }
+  .hero-art{ max-width:100%; }
+  .hero-img{ width:100%; height:auto; aspect-ratio:1/1; object-fit:cover; }
+  .float-badge{ transform:scale(.85); }
+  .hero-microtrust{ flex-wrap:wrap; flex-direction:row; gap:10px 16px; justify-content:flex-start; }
+  .stats-grid{ gap:24px 0; }
+}
+
+/* ---- Product page (PDP) — the most important page ---- */
+@media (max-width: 1024px){
+  .pdp{ padding-top:18px; }
+  .pdp-grid{ grid-template-columns:1fr; gap:24px; }
+  .gallery{ position:static !important; top:auto !important; }
+}
+@media (max-width: 768px){
+  .pdp-details h1{ font-size:1.7rem; }
+  .big-price{ font-size:2.1rem; }
+  .gal-main img{ aspect-ratio:1/1; object-fit:cover; }
+  .gal-thumbs{ grid-template-columns:repeat(4,1fr); gap:8px; }
+  .gal-thumbs .gthumb:nth-child(n+5){ display:none; }
+  .variant-row{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .variant-card{ flex-direction:column; gap:6px; padding:12px 8px; text-align:center; }
+  .bundle-row{ grid-template-columns:1fr; gap:10px; }
+  .benefits-grid,.features-grid,.rings-grid{ grid-template-columns:1fr; }
+  .pillars-grid{ grid-template-columns:repeat(2,1fr); gap:14px; }
+  .imgtxt{ grid-template-columns:1fr; gap:22px; }
+  .cta-card-pdp{ grid-template-columns:1fr; padding:30px 22px; text-align:center; }
+  .ctp-right{ display:none; }
+  .proof-card{ grid-template-columns:repeat(2,1fr); gap:22px 0; }
+  /* comparison table fits */
+  .compare th,.compare td{ padding:12px 8px; font-size:.85rem; }
+  .compare th:first-child,.compare td:first-child{ font-size:.82rem; }
+  /* before/after slider tappable height */
+  .ba-wrap{ aspect-ratio:auto; }
+  .ba-img{ height:300px; object-fit:cover; }
+  /* leave room for the sticky ATC bar */
+  body.template-product{ padding-bottom:78px; }
+}
+
+/* ---- Sticky ATC bar (mobile only) ---- */
+.sticky-atc{ z-index:120; }
+@media (max-width: 768px){
+  .sticky-atc{ border-radius:0; left:0; right:0; padding:10px 14px; gap:10px; }
+  .sticky-atc img{ width:46px; height:46px; }
+  .sa-text strong{ font-size:.9rem; }
+  .sticky-atc .btn{ padding:12px 18px; font-size:.92rem; min-height:46px; white-space:nowrap; }
+}
+
+/* ---- Shop / collection grid ---- */
+@media (max-width: 1024px){ .product-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width: 560px){ .product-grid{ grid-template-columns:1fr; } }
+
+/* ---- Cart drawer full width on phones ---- */
+@media (max-width: 768px){
+  .cart-drawer{ width:100vw; max-width:100vw; }
+}
+
+/* ---- Reduce layout shift / faster paint ---- */
+img{ max-width:100%; height:auto; }
+.reveal{ will-change:auto; }
+
+/* ---- Final 375px guards ---- */
+@media (max-width: 420px){
+  .countdown{ flex-wrap:wrap; justify-content:center; gap:6px; }
+  .cdv{ min-width:38px; }
+  .compare-wrap{ -webkit-overflow-scrolling:touch; }
+  .addon-box{ flex-wrap:wrap; }
+  .live-viewers{ font-size:.8rem; }
+  .price-row{ flex-wrap:wrap; align-items:baseline; }
+  .trust-row{ flex-wrap:wrap; gap:10px 14px; }
+  .footer-grid{ text-align:left; }
+}
+
+/* ---- Cart drawer: keep items scrollable, compact cross-sell/protection ---- */
+.cart-drawer #didiCartItems{ flex:1 1 auto; min-height:80px; overflow-y:auto; }
+.cart-drawer .cross-sell{ flex:0 0 auto; padding:12px 22px; }
+.cart-drawer .cross-sell h4{ margin:0 0 8px; font-size:.9rem; }
+.cart-drawer .cs-item{ padding:8px 0; grid-template-columns:44px 1fr auto; }
+.cart-drawer .cs-item img{ width:44px; height:44px; }
+.cart-drawer .protection{ flex:0 0 auto; }
+.cart-drawer .cart-totals{ flex:0 0 auto; }
+/* JS-rendered items use .cart-item — give them the soft card look like the design */
+.cart-drawer .cart-item{ background:var(--bg-soft); border-radius:14px; padding:12px; border-bottom:none; margin-bottom:10px; }
+
+/* ---- Add-on box beneath the bundle (cross-sell with checkbox) ---- */
+.addon-group{ margin-bottom: 18px; }
+.addon-group .addon-row{ margin-bottom: 0; }
+.addon-img .addon-thumb{ width:46px; height:46px; border-radius:10px; object-fit:cover; display:block; }
+.addon-img{ display:flex; align-items:center; justify-content:center; width:46px; height:46px; }

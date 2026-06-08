@@ -1,0 +1,58 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+<section class="below-fold">
+  <div class="container">
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+    <div class="rings-grid">
+      {%- for block in section.blocks -%}
+        <div class="ring-card reveal" {{ block.shopify_attributes }}>
+          <div class="ring" data-pct="{{ block.settings.pct }}">
+            <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" class="ring-bg"/><circle cx="60" cy="60" r="50" class="ring-fg" style="--c:{{ block.settings.color }}"/></svg>
+            <span class="ring-pct">0%</span>
+          </div>
+          <h3>{{ block.settings.title }}</h3>
+          <em>{{ block.settings.sub }}</em>
+          <p>{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Stat rings",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The proof" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Parents See the Difference" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Survey of 1,400+ didiplay families after 6 weeks of use." }
+  ],
+  "blocks": [
+    {
+      "type": "ring",
+      "name": "Ring",
+      "settings": [
+        { "type": "range", "id": "pct", "label": "Percent", "min": 0, "max": 100, "step": 1, "default": 96 },
+        { "type": "text", "id": "color", "label": "Ring color", "default": "#FF6B9D" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Improved Focus" },
+        { "type": "text", "id": "sub", "label": "Subtitle", "default": "in just 3 weeks" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Parents reported their child sticks with creative tasks longer." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Stat rings",
+      "blocks": [
+        { "type": "ring", "settings": { "pct": 96, "color": "#FF6B9D", "title": "Improved Focus", "sub": "in just 3 weeks", "body": "Parents reported their child sticks with creative tasks longer." } },
+        { "type": "ring", "settings": { "pct": 91, "color": "#7C3AED", "title": "Less Screen Time", "sub": "parents reported", "body": "A meaningful daily swap from tablets to hands-on play." } },
+        { "type": "ring", "settings": { "pct": 94, "color": "#2BC4B0", "title": "Kids Use It Weekly", "sub": "two months later", "body": "It doesn't gather dust — it stays in rotation for the long haul." } },
+        { "type": "ring", "settings": { "pct": 97, "color": "#FF6B9D", "title": "Would Gift It Again", "sub": "to other parents", "body": "It's the present that gets remembered long after the party." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

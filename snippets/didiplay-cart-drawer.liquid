@@ -1,0 +1,61 @@
+<aside class="cart-drawer" id="didiCartDrawer" role="dialog" aria-label="Shopping cart" aria-hidden="true">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="cart-close" id="didiCartClose" type="button" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="cart-timer">
+    <span aria-hidden="true">&#9201;</span>
+    <span>Your cart is reserved for <strong id="didiResTimer">04:26</strong></span>
+  </div>
+
+  <div class="cart-items" id="didiCartItems"></div>
+  <div class="cart-empty" id="didiCartEmpty" style="display:none;padding:32px 20px;text-align:center;color:var(--body)">
+    Your cart is empty. <a href="{{ routes.all_products_collection_url }}">Start shopping &rarr;</a>
+  </div>
+
+  <div class="cross-sell" id="didiCrossSell">
+    <h4>Complete the Set</h4>
+    {%- assign shown = 0 -%}
+    {%- for p in collections.all.products -%}
+      {%- if p.available and shown < 1 and p.handle != 'shipping-protection' -%}
+        {%- assign vid = p.selected_or_first_available_variant.id -%}
+        <div class="cs-item">
+          {%- if p.featured_media -%}
+            {{ p.featured_media | image_url: width: 88 | image_tag: alt: p.title, loading: 'lazy', widths: '88,176' }}
+          {%- else -%}
+            <div style="width:52px;height:52px;border-radius:10px;background:var(--purple-wash);display:flex;align-items:center;justify-content:center;font-size:1.1rem">&#127924;</div>
+          {%- endif -%}
+          <div>
+            <div class="cs-name">{{ p.title }}</div>
+            <div class="cs-price">
+              {%- if p.compare_at_price > p.price -%}<span class="cs-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+              <strong>{{ p.price | money }}</strong>
+            </div>
+          </div>
+          <button class="cs-add" type="button" data-didi-add="{{ vid }}" data-qty="1">Add</button>
+        </div>
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} Shipping protection: real line item if a product with handle 'shipping-protection' exists {%- endcomment -%}
+  {%- assign prot = all_products['shipping-protection'] -%}
+  <div class="protection" id="didiProtection"
+       data-prot-variant="{% if prot != empty %}{{ prot.selected_or_first_available_variant.id }}{% endif %}">
+    <button class="toggle" id="didiProtToggle" type="button" role="switch" aria-checked="false" aria-label="Shipping protection"></button>
+    <div class="protection-text">
+      <div class="p-title">Shipping Protection</div>
+      <div class="p-sub">Protect your package from being lost or stolen</div>
+    </div>
+    <div class="protection-fee">+{% if prot != empty %}{{ prot.price | money }}{% else %}{{ 299 | money }}{% endif %}</div>
+  </div>
+
+  <div class="cart-totals">
+    <div class="tot-row"><span>Subtotal</span><span id="didiCartSubtotal">{{ cart.total_price | money }}</span></div>
+    <div class="tot-row total"><span>Total</span><span id="didiCartTotal">{{ cart.total_price | money }}</span></div>
+    <a class="btn btn-primary btn-block btn-lg pulse" style="margin-top:14px" href="/checkout" id="didiCheckout">Checkout</a>
+    <a class="continue-link" href="#" id="didiContinue">Continue Shopping</a>
+  </div>
+</aside>
+<div class="scrim" id="didiCartScrim"></div>

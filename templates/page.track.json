@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "track": {
+      "type": "didiplay-track",
+      "settings": {
+        "eyebrow": "Track Order",
+        "heading": "Where's My Order?",
+        "subheading": "Check the status of your didiplay order in a couple of taps.",
+        "support_email": "hello@didiplay.store",
+        "help_note": "Most orders ship within 24 hours and arrive in 5–9 business days."
+      }
+    }
+  },
+  "order": [
+    "track"
+  ]
+}

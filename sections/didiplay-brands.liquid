@@ -1,0 +1,36 @@
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+<section class="trusted-brands section-soft below-fold" id="shopify-section-{{ section.id }}-inner">
+  <div class="container">
+    <h2 class="center" style="font-size:1.3rem;margin-bottom:32px;letter-spacing:0.02em">{{ section.settings.heading }}</h2>
+    <div class="brand-strip">
+      {%- for block in section.blocks -%}
+        <div class="brand" {{ block.shopify_attributes }}>{{ block.settings.name }}</div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Trusted brands",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "As Loved & Featured On" }
+  ],
+  "blocks": [
+    { "type": "brand", "name": "Brand", "settings": [ { "type": "text", "id": "name", "label": "Name", "default": "Trustpilot ★" } ] }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Trusted brands",
+      "blocks": [
+        { "type": "brand", "settings": { "name": "Trustpilot ★" } },
+        { "type": "brand", "settings": { "name": "amazon" } },
+        { "type": "brand", "settings": { "name": "ebay" } },
+        { "type": "brand", "settings": { "name": "Parents" } },
+        { "type": "brand", "settings": { "name": "Mom's Choice" } },
+        { "type": "brand", "settings": { "name": "Good Housekeeping" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

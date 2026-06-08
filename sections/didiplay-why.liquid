@@ -1,0 +1,54 @@
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+{{ 'didiplay-index.css' | asset_url | stylesheet_tag }}
+<section class="below-fold didiplay-why" id="shopify-section-{{ section.id }}-inner">
+  <div class="container">
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </div>
+    <div class="why-grid">
+      {%- for block in section.blocks -%}
+        <div class="why-card reveal" {{ block.shopify_attributes }}>
+          <div class="why-icon" style="background:{{ block.settings.icon_bg | default: '#FFF1F6' }}">{{ block.settings.icon }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Why choose us",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The didiplay Promise" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why Thousands of Parents Choose didiplay" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Honest, reliable, and built around what your family actually needs." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "🚚" },
+        { "type": "text", "id": "icon_bg", "label": "Icon background", "default": "#FFF1F6" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free Worldwide Shipping" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Your child's new favorite toy ships free, anywhere in the world." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Why choose us",
+      "blocks": [
+        { "type": "card", "settings": { "icon": "🚚", "icon_bg": "#FFF1F6", "title": "Free Worldwide Shipping", "body": "Your child's new favorite toy ships free, anywhere in the world." } },
+        { "type": "card", "settings": { "icon": "💬", "icon_bg": "#F4EEFF", "title": "Friendly 24/7 Support", "body": "Real humans ready to help before and after your purchase." } },
+        { "type": "card", "settings": { "icon": "🔒", "icon_bg": "#E0FAF2", "title": "Secure Checkout", "body": "Encrypted, trusted payment — your details are always protected." } },
+        { "type": "card", "settings": { "icon": "💖", "icon_bg": "#FFF1F6", "title": "30-Day Happiness Guarantee", "body": "Not delighted? Send it back within 30 days for a full refund." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

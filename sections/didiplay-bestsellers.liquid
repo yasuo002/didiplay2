@@ -1,0 +1,81 @@
+{{ 'didiplay-index.css' | asset_url | stylesheet_tag }}
+<section id="how" class="below-fold didiplay-bestsellers">
+  <div class="container">
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </div>
+    <div class="product-grid">
+      {%- for block in section.blocks -%}
+        {%- assign p = all_products[block.settings.product] -%}
+        <article class="pcard reveal" {{ block.shopify_attributes }}>
+          <a href="{% if p != empty %}{{ p.url }}{% else %}{{ block.settings.link | default: routes.all_products_collection_url }}{% endif %}" class="pcard-img">
+            {%- if block.settings.badge != blank -%}<span class="sale-badge">{{ block.settings.badge }}</span>{%- endif -%}
+            {%- if p != empty and p.featured_media -%}
+              {{ p.featured_media | image_url: width: 600 | image_tag: alt: p.title, loading: 'lazy', widths: '300,600' }}
+            {%- elsif block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: alt: block.settings.title, loading: 'lazy', widths: '300,600' }}
+            {%- else -%}
+              <div style="aspect-ratio:1/1;background:{{ block.settings.placeholder_bg | default: '#FFE3EE' }};display:flex;align-items:center;justify-content:center;color:{{ block.settings.placeholder_fg | default: '#FF6B9D' }};font-family:Sora,sans-serif;font-weight:800;font-size:1.4rem;text-align:center;padding:16px">{{ block.settings.title }}</div>
+            {%- endif -%}
+            <span class="quick-add">Quick View →</span>
+          </a>
+          <div class="pcard-body">
+            <div class="pcard-rating"><span class="stars">★★★★★</span> {{ block.settings.rating }} ({{ block.settings.review_count }})</div>
+            <h3><a href="{% if p != empty %}{{ p.url }}{% else %}{{ block.settings.link | default: '#' }}{% endif %}" style="color:inherit">{% if p != empty %}{{ p.title }}{% else %}{{ block.settings.title }}{% endif %}</a></h3>
+            <div class="pcard-price">
+              {%- if p != empty -%}
+                <span class="now price">{{ p.price | money }}</span>
+                {%- if p.compare_at_price > p.price -%}<span class="was price">{{ p.compare_at_price | money }}</span>{%- endif -%}
+              {%- else -%}
+                <span class="now price">{{ block.settings.price }}</span>
+                {%- if block.settings.compare != blank -%}<span class="was price">{{ block.settings.compare }}</span>{%- endif -%}
+              {%- endif -%}
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Best sellers",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Best Sellers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by Little Artists Everywhere" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Carefully designed, parent-approved, and built to keep kids happily creating — screen-free." }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Linked product (recommended)" },
+        { "type": "text", "id": "title", "label": "Fallback title", "default": "Drawing Robot for Kids" },
+        { "type": "image_picker", "id": "image", "label": "Fallback image" },
+        { "type": "text", "id": "placeholder_bg", "label": "Placeholder bg", "default": "#FFE3EE" },
+        { "type": "text", "id": "placeholder_fg", "label": "Placeholder text color", "default": "#FF6B9D" },
+        { "type": "url", "id": "link", "label": "Fallback link" },
+        { "type": "text", "id": "badge", "label": "Sale badge", "default": "43% OFF" },
+        { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
+        { "type": "text", "id": "review_count", "label": "Review count", "default": "2,318" },
+        { "type": "text", "id": "price", "label": "Fallback price", "default": "$39.99" },
+        { "type": "text", "id": "compare", "label": "Fallback compare-at", "default": "$69.99" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Best sellers",
+      "blocks": [
+        { "type": "product_card", "settings": { "title": "Drawing Robot for Kids", "badge": "43% OFF", "rating": "4.9", "review_count": "2,318", "price": "$39.99", "compare": "$69.99", "placeholder_bg": "#FFE3EE", "placeholder_fg": "#FF6B9D" } },
+        { "type": "product_card", "settings": { "title": "150-Card Mega Pack", "badge": "40% OFF", "rating": "4.8", "review_count": "847", "price": "$14.99", "compare": "$24.99", "placeholder_bg": "#F4EEFF", "placeholder_fg": "#7C3AED" } },
+        { "type": "product_card", "settings": { "title": "Washable Color Pen Refill (12-Pack)", "badge": "", "rating": "4.7", "review_count": "412", "price": "$9.99", "compare": "", "placeholder_bg": "#E0FAF2", "placeholder_fg": "#2BC4B0" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

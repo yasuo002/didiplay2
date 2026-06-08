@@ -1,0 +1,65 @@
+{{ 'didiplay-index.css' | asset_url | stylesheet_tag }}
+<section class="hero didiplay-hero" id="shopify-section-{{ section.id }}-inner">
+  <div class="hero-doodles" aria-hidden="true">
+    <span class="d d1">✏️</span><span class="d d2">⭐</span><span class="d d3">🎨</span>
+    <span class="d d4">💫</span><span class="d d5">🌈</span><span class="d d6">✨</span>
+  </div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      {%- if section.settings.badge != blank -%}<div class="hero-badge"><span class="dot"></span> {{ section.settings.badge }}</div>{%- endif -%}
+      <h1>{{ section.settings.heading }}</h1>
+      <p class="lede">{{ section.settings.subheading }}</p>
+      <div class="hero-stars">
+        <span class="stars">★★★★★</span>
+        <strong>{{ section.settings.rating }}</strong>
+        <span>· {{ section.settings.rating_text }}</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="btn btn-primary btn-lg pulse">{{ section.settings.cta_label }}</a>
+        <a href="{{ section.settings.cta2_link | default: '#how' }}" class="btn btn-secondary btn-lg">{{ section.settings.cta2_label }}</a>
+      </div>
+      <div class="hero-microtrust">
+        <span>🚚 {{ section.settings.trust_1 | default: 'Free shipping' }}</span>
+        <span>💖 {{ section.settings.trust_2 | default: '30-day guarantee' }}</span>
+        <span>🔒 {{ section.settings.trust_3 | default: 'Secure checkout' }}</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-blob"></div>
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1000 | image_tag: alt: section.settings.heading, class: 'hero-img', loading: 'eager', widths: '480,720,1000' }}
+      {%- else -%}
+        <div class="hero-img" style="aspect-ratio:1/1;background:linear-gradient(135deg,#FFE3EE,#F4EEFF);border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;color:var(--pink);font-family:Sora,sans-serif;font-weight:800;font-size:1.8rem">{{ section.settings.image_placeholder | default: 'Pink Drawing Robot' }}</div>
+      {%- endif -%}
+      <div class="float-badge fb1"><span class="stars">★★★★★</span><strong>{{ section.settings.rating }}</strong></div>
+      <div class="float-badge fb2"><span>👨‍👩‍👧</span><div><strong>{{ section.settings.badge_families | default: '12,400+' }}</strong><small>Families</small></div></div>
+      <div class="float-badge fb3"><span>🚚</span><div><strong>Free</strong><small>Shipping</small></div></div>
+    </div>
+  </div>
+</section>
+<style>
+  #shopify-section-{{ section.id }} h1{ color: var(--ink); }
+</style>
+{% schema %}
+{
+  "name": "Home hero",
+  "settings": [
+    { "type": "text", "id": "badge", "label": "Badge", "default": "Loved by 12,400+ families worldwide" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Watch Your Child Discover the Joy of Drawing" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "The screen-free robot that teaches kids 5+ to draw, step by step — building creativity, focus, and confidence with every picture." },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "text", "id": "image_placeholder", "label": "Image placeholder text", "default": "Pink Drawing Robot" },
+    { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "Join 12,400+ happy families" },
+    { "type": "text", "id": "badge_families", "label": "Families count", "default": "12,400+" },
+    { "type": "text", "id": "cta_label", "label": "Primary CTA label", "default": "Get Yours Today — 43% Off" },
+    { "type": "url", "id": "cta_link", "label": "Primary CTA link" },
+    { "type": "text", "id": "cta2_label", "label": "Secondary CTA label", "default": "See How It Works ↓" },
+    { "type": "url", "id": "cta2_link", "label": "Secondary CTA link" },
+    { "type": "text", "id": "trust_1", "label": "Trust 1", "default": "Free shipping" },
+    { "type": "text", "id": "trust_2", "label": "Trust 2", "default": "30-day guarantee" },
+    { "type": "text", "id": "trust_3", "label": "Trust 3", "default": "Secure checkout" }
+  ],
+  "presets": [{ "name": "Home hero" }]
+}
+{% endschema %}

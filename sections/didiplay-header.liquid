@@ -1,0 +1,208 @@
+{%- assign nav = linklists[section.settings.menu] | default: linklists['main-menu'] -%}
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.announcement != blank -%}
+<div class="announce" role="region" aria-label="Promotions">
+  <div class="announce-track">
+    {%- for i in (1..3) -%}
+      <span>{{ section.settings.announcement }}</span><span>·</span>
+      <span>{{ section.settings.announcement_2 | default: '✅ 30-Day Money-Back Guarantee' }}</span><span>·</span>
+      <span>{{ section.settings.announcement_3 | default: '🔒 Secure Checkout' }}</span><span>·</span>
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+
+<header class="site-header" role="banner" id="shopify-section-{{ section.id }}-inner">
+  <div class="header-inner">
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="{{ routes.root_url }}" class="logo" aria-label="{{ shop.name }} home">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 240 | image_tag: alt: shop.name, class: 'didiplay-logo-img', loading: 'eager' }}
+      {%- else -%}
+        {{ section.settings.brand_name | default: 'didiplay' }}
+      {%- endif -%}
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      {%- if nav.links.size > 0 -%}
+        {%- for link in nav.links -%}
+          <a href="{{ link.url }}" class="{% if link.active %}active{% endif %}">{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        <a href="{{ routes.root_url }}" class="active">Home</a>
+        <a href="{{ routes.all_products_collection_url }}">Shop</a>
+        <a href="/pages/track">Track Order</a>
+        <a href="/pages/about">About Us</a>
+      {%- endif -%}
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="langBtn" type="button" aria-label="Language and currency" aria-haspopup="dialog"></button>
+      <a href="{{ routes.cart_url }}" class="icon-btn didiplay-cart-link" id="cartBtn" aria-label="Open cart" data-cart-open>
+        <span aria-hidden="true">🛒</span>
+        <span class="cart-badge" id="didiCartBadge"{% if cart.item_count == 0 %} style="display:none"{% endif %}>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div id="google_translate_element" style="display:none" aria-hidden="true"></div>
+<div class="lang-modal" role="dialog" aria-label="Language and currency selector">
+  <div class="lang-tabs" role="tablist">
+    {%- if localization.available_countries.size > 1 -%}<button class="lang-tab active" type="button" data-tab="cur">💱 Currency</button>{%- endif -%}
+    <button class="lang-tab{% unless localization.available_countries.size > 1 %} active{% endunless %}" type="button" data-tab="lang">🌐 Language</button>
+  </div>
+
+  {%- if localization.available_countries.size > 1 -%}
+  <form method="post" action="{{ routes.cart_url }}/update" id="didiCurrencyForm" accept-charset="UTF-8" class="lang-list" data-pane="cur">
+    <input type="hidden" name="form_type" value="localization">
+    <input type="hidden" name="_method" value="put">
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+    {%- for country in localization.available_countries -%}
+      <button type="submit" name="country_code" value="{{ country.iso_code }}" class="lang-item {% if country.iso_code == localization.country.iso_code %}active{% endif %}">
+        <span class="flag">{{ country.currency.iso_code }}</span>
+        <span>{{ country.name }} · {{ country.currency.symbol | default: country.currency.iso_code }}</span>
+        {%- if country.iso_code == localization.country.iso_code -%}<span class="check">✓</span>{%- endif -%}
+      </button>
+    {%- endfor -%}
+  </form>
+  {%- endif -%}
+
+  {%- comment -%} Language: Google Translate (in-place, no navigation -> no 404) {%- endcomment -%}
+  <div class="lang-list" data-pane="lang"{% if localization.available_countries.size > 1 %} style="display:none"{% endif %}>
+    {%- assign langs = "en|English|🇺🇸,de|German|🇩🇪,fr|French|🇫🇷,es|Spanish|🇪🇸,nl|Dutch|🇳🇱,tr|Turkish|🇹🇷,ar|Arabic|🇸🇦,ja|Japanese|🇯🇵,ko|Korean|🇰🇷,zh-CN|Chinese|🇨🇳,th|Thai|🇹🇭,vi|Vietnamese|🇻🇳" | split: "," -%}
+    {%- for l in langs -%}
+      {%- assign parts = l | split: "|" -%}
+      <button type="button" class="lang-item" data-lang="{{ parts[0] }}">
+        <span class="flag">{{ parts[2] }}</span><span>{{ parts[1] }}</span>
+        <span class="check" style="display:none">✓</span>
+      </button>
+    {%- endfor -%}
+  </div>
+</div>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile menu">
+  <a href="{{ routes.root_url }}" class="logo" style="margin-bottom:18px">{{ section.settings.brand_name | default: 'didiplay' }}</a>
+  {%- if nav.links.size > 0 -%}
+    {%- for link in nav.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+  {%- else -%}
+    <a href="{{ routes.root_url }}">Home</a>
+    <a href="{{ routes.all_products_collection_url }}">Shop</a>
+    <a href="/pages/track">Track Order</a>
+    <a href="/pages/about">About Us</a>
+  {%- endif -%}
+</div>
+<div class="scrim" id="headerScrim"></div>
+
+<style>
+  .didiplay-logo-img { height: 30px; width: auto; }
+  #langBtn { gap: 5px; font-weight: 700; font-size: .82rem; color: var(--ink); width: auto; padding: 0 12px; border-radius: 999px; }
+  @media (max-width: 900px){ .nav-links{ display:none; } .hamburger{ display:inline-flex; } }
+  @media (min-width: 901px){ .hamburger{ display:none; } .mobile-menu{ display:none; } }
+</style>
+
+<script>
+(function(){
+  var ham = document.querySelector('.hamburger');
+  var menu = document.getElementById('mobileMenu');
+  var scrim = document.getElementById('headerScrim');
+  function toggle(open){
+    if(!menu) return;
+    menu.classList.toggle('open', open);
+    if(scrim) scrim.classList.toggle('show', open);
+    if(ham){ ham.classList.toggle('open', open); ham.setAttribute('aria-expanded', open?'true':'false'); }
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  if(ham) ham.addEventListener('click', function(){ toggle(!menu.classList.contains('open')); });
+
+  var header = document.querySelector('.site-header');
+  if(header) window.addEventListener('scroll', function(){ header.classList.toggle('scrolled', window.scrollY > 10); }, { passive:true });
+
+  var langBtn = document.getElementById('langBtn');
+  var modal = document.querySelector('.lang-modal');
+  function setLabel(){
+    if(!langBtn) return;
+    var cur = {{ localization.country.currency.iso_code | json }};
+    langBtn.innerHTML = '\uD83C\uDF10 <span>' + (cur || 'USD') + '</span>';
+  }
+  setLabel();
+  function openLang(){ if(modal) modal.classList.add('open'); }
+  function closeLang(){ if(modal) modal.classList.remove('open'); }
+  if(scrim) scrim.addEventListener('click', function(){ toggle(false); closeLang(); });
+  if(menu) menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ toggle(false); }); });
+  if(langBtn) langBtn.addEventListener('click', function(e){ e.stopPropagation(); if(modal.classList.contains('open')) closeLang(); else openLang(); });
+  document.addEventListener('click', function(e){ if(modal && !e.target.closest('.lang-modal') && !e.target.closest('#langBtn')) closeLang(); });
+  if(modal){
+    modal.querySelectorAll('.lang-tab').forEach(function(t){
+      t.addEventListener('click', function(){
+        modal.querySelectorAll('.lang-tab').forEach(function(b){ b.classList.remove('active'); });
+        t.classList.add('active');
+        modal.querySelectorAll('[data-pane]').forEach(function(p){ p.style.display = (p.getAttribute('data-pane')===t.dataset.tab)?'':'none'; });
+      });
+    });
+    // language via Google Translate (in-place, no navigation)
+    var savedLang = null;
+    try { savedLang = localStorage.getItem('didiLang'); } catch(e){}
+    function markLang(code){
+      modal.querySelectorAll('[data-lang]').forEach(function(b){
+        var on = b.getAttribute('data-lang') === code;
+        b.classList.toggle('active', on);
+        var chk = b.querySelector('.check'); if(chk) chk.style.display = on ? '' : 'none';
+      });
+    }
+    function applyGoogleTranslate(code, tries){
+      var combo = document.querySelector('.goog-te-combo');
+      if(combo){ combo.value = code; combo.dispatchEvent(new Event('change')); return; }
+      if((tries||0) < 20) setTimeout(function(){ applyGoogleTranslate(code, (tries||0)+1); }, 300);
+    }
+    function setLanguage(code){
+      try { localStorage.setItem('didiLang', code); } catch(e){}
+      document.documentElement.setAttribute('dir', code === 'ar' ? 'rtl' : 'ltr');
+      markLang(code);
+      applyGoogleTranslate(code);
+      closeLang();
+    }
+    modal.querySelectorAll('[data-lang]').forEach(function(b){
+      b.addEventListener('click', function(){ setLanguage(b.getAttribute('data-lang')); });
+    });
+    if(savedLang && savedLang !== 'en'){ markLang(savedLang); document.documentElement.setAttribute('dir', savedLang === 'ar' ? 'rtl':'ltr'); applyGoogleTranslate(savedLang); }
+    else { markLang('en'); }
+  }
+
+  var cartBtn = document.querySelector('[data-cart-open]');
+  if(cartBtn) cartBtn.addEventListener('click', function(e){ if(window.didiOpenCart){ e.preventDefault(); window.didiOpenCart(); } });
+})();
+</script>
+
+<script>
+  function googleTranslateElementInit(){
+    new google.translate.TranslateElement(
+      { pageLanguage: 'en', includedLanguages: 'en,de,fr,es,nl,tr,ar,ja,ko,zh-CN,th,vi', autoDisplay: false },
+      'google_translate_element'
+    );
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<style>
+  /* hide Google's injected top banner / tooltip so it doesn't shift the layout */
+  .goog-te-banner-frame, .skiptranslate iframe { display: none !important; }
+  body { top: 0 !important; }
+  #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+  .goog-text-highlight { background: none !important; box-shadow: none !important; }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image (optional)" },
+    { "type": "text", "id": "brand_name", "label": "Brand name (if no logo)", "default": "didiplay" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "text", "id": "announcement", "label": "Announcement 1", "default": "\uD83D\uDE9A Free Worldwide Shipping" },
+    { "type": "text", "id": "announcement_2", "label": "Announcement 2", "default": "\u2705 30-Day Money-Back Guarantee" },
+    { "type": "text", "id": "announcement_3", "label": "Announcement 3", "default": "\uD83D\uDD12 Secure Checkout" }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

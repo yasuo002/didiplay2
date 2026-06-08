@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "didiplay-main-page" } },
+  "order": ["main"]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "didiplay-header": { "type": "didiplay-header", "settings": {} }
+  },
+  "order": ["didiplay-header"]
+}

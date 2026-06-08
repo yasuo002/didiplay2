@@ -1,0 +1,42 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+<section class="below-fold">
+  <div class="container">
+    <div class="pillars-grid">
+      {%- for block in section.blocks -%}
+        <div class="pillar reveal" {{ block.shopify_attributes }}>
+          <div class="p-emoji">{{ block.settings.emoji }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Guarantee pillars",
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        { "type": "text", "id": "emoji", "label": "Emoji", "default": "💖" },
+        { "type": "text", "id": "title", "label": "Title", "default": "30-Day Money-Back" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Love it or send it back, no questions asked." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Guarantee pillars",
+      "blocks": [
+        { "type": "pillar", "settings": { "emoji": "💖", "title": "30-Day Money-Back", "body": "Love it or send it back, no questions asked." } },
+        { "type": "pillar", "settings": { "emoji": "🔒", "title": "Secure Checkout", "body": "SSL-encrypted. Your details are always safe." } },
+        { "type": "pillar", "settings": { "emoji": "🚚", "title": "Free Worldwide Shipping", "body": "Ships free, anywhere we can reach." } },
+        { "type": "pillar", "settings": { "emoji": "💬", "title": "Friendly Support", "body": "Real humans, always happy to help." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

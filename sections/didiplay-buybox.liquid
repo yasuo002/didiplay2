@@ -1,0 +1,431 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+{%- if product == empty or product == nil -%}
+<section class="pdp didiplay-buybox">
+  <div class="container" style="text-align:center;padding:60px 0">
+    <h1>Assign a product to this template</h1>
+    <p style="color:var(--body);max-width:520px;margin:12px auto 24px">In Shopify admin open a product, and under <strong>Theme template</strong> choose <em>product</em>. The buy box will then show its price, variants, and Add-to-Cart here.</p>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary btn-lg">Browse products</a>
+  </div>
+</section>
+{%- else -%}
+{%- assign cur = product.selected_or_first_available_variant -%}
+<section class="pdp didiplay-buybox">
+  <div class="container pdp-grid" id="buySection">
+
+    <!-- GALLERY (bound to product.media; colored fallback if no images) -->
+    <div class="gallery">
+      <div class="gal-main">
+        {%- if product.featured_media -%}
+          <img id="galMain" src="{{ product.featured_media | image_url: width: 800 }}" alt="{{ product.title | escape }}" width="800" height="800">
+        {%- else -%}
+          <img id="galMain" src="data:image/svg+xml,{{ '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"800\"><rect width=\"800\" height=\"800\" fill=\"%23FFE3EE\"/><text x=\"50%\" y=\"50%\" font-family=\"Sora,sans-serif\" font-size=\"54\" font-weight=\"800\" fill=\"%23FF6B9D\" text-anchor=\"middle\" dominant-baseline=\"middle\">Pink Robot</text></svg>' | url_encode }}" alt="{{ product.title | escape }}" width="800" height="800">
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 0 -%}
+      <div class="gal-thumbs" role="tablist">
+        {%- for media in product.media limit: 6 -%}
+          <button class="gthumb {% if forloop.first %}active{% endif %}" data-src="{{ media | image_url: width: 800 }}" aria-label="View {{ forloop.index }}">
+            <img src="{{ media | image_url: width: 200 }}" alt="" loading="lazy">
+          </button>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+    </div>
+
+    <!-- DETAILS -->
+    <div class="pdp-details">
+      {%- if section.settings.show_live_viewers -%}
+      <div class="live-viewers" aria-live="polite">
+        <span class="lv-dot"></span>
+        <span>👁 <strong id="liveCount">{{ section.settings.live_viewers_start | default: 115 }}</strong> people viewing right now</span>
+      </div>
+      {%- endif -%}
+
+      <h1>{{ product.title }}</h1>
+
+      <div class="pdp-rating">
+        <span class="stars">★★★★★</span>
+        <a href="#reviews-section">({{ section.settings.review_count | default: '2,318' }} reviews)</a>
+        {%- if cur.compare_at_price > cur.price -%}
+          {%- assign pct = cur.compare_at_price | minus: cur.price | times: 100.0 | divided_by: cur.compare_at_price | round -%}
+          <span class="save-pill">SAVE {{ pct }}%</span>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.benefits != blank -%}
+      <ul class="benefit-checks">
+        {%- assign rows = section.settings.benefits | newline_to_br | split: '<br />' -%}
+        {%- for row in rows -%}{%- assign r = row | strip -%}{%- if r != '' -%}<li>✓ {{ r }}</li>{%- endif -%}{%- endfor -%}
+      </ul>
+      {%- endif -%}
+
+      <div class="price-row">
+        <span class="big-price price" id="bundlePrice">{{ cur.price | money }}</span>
+        {%- if cur.compare_at_price > cur.price -%}<span class="price-was price" id="bundleCompare">{{ cur.compare_at_price | money }}</span>{%- endif -%}
+      </div>
+
+      {%- assign fid = 'product-form-' | append: section.id -%}
+      {% form 'product', product, id: fid, class: 'didiplay-product-form' %}
+        <input type="hidden" name="id" value="{{ cur.id }}" data-variant-id>
+        <input type="hidden" name="quantity" value="1" data-qty-input>
+
+        <!-- VARIANT OPTIONS (real Shopify options) -->
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="opt-group">
+              <div class="opt-label">{{ option.name }}: <strong data-opt-label="{{ forloop.index0 }}">{{ option.selected_value }}</strong></div>
+              <div class="variant-row" data-option-index="{{ forloop.index0 }}">
+                {%- for value in option.values -%}
+                  {%- assign sw = '#FF6B9D' -%}
+                  {%- assign vl = value | downcase -%}
+                  {%- if vl contains 'mint' -%}{%- assign sw = '#6FE3C2' -%}{%- elsif vl contains 'teal' -%}{%- assign sw = '#2BC4B0' -%}{%- elsif vl contains 'blue' -%}{%- assign sw = '#7C3AED' -%}{%- endif -%}
+                  <button type="button" class="variant-card {% if option.selected_value == value %}active{% endif %}"
+                    data-opt-value data-opt-pos="{{ forloop.parentloop.index0 }}" data-value="{{ value | escape }}" style="--vc:{{ sw }}">
+                    <span class="swatch"></span>
+                    <span class="vc-name">{{ value }}</span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <!-- variant JSON for client-side matching -->
+        <script type="application/json" data-variant-json>{{ product.variants | json }}</script>
+
+        <!-- BUNDLE & SAVE (quantity tiers) -->
+        {%- if section.settings.show_bundles -%}
+        <div class="opt-group">
+          <div class="opt-label">Bundle &amp; Save</div>
+          <div class="bundle-row">
+            {%- for block in section.blocks -%}{%- if block.type == 'bundle' -%}
+              {%- assign each = cur.price | times: block.settings.qty | times: 100 | minus: 0 | divided_by: 100 -%}
+              <button type="button" class="bundle-card {% if block.settings.is_default %}active{% endif %}" data-bundle data-qty="{{ block.settings.qty }}" data-discount="{{ block.settings.discount_pct }}" {{ block.shopify_attributes }}>
+                {%- if block.settings.popular -%}<span class="popular">Most Popular</span>{%- endif -%}
+                <div class="bc-head">
+                  <span class="bc-qty">{{ block.settings.qty }}×</span>
+                  <span class="bc-tag"{% if block.settings.discount_pct > 0 %} style="color:var(--green)"{% endif %}>{{ block.settings.tag }}</span>
+                </div>
+                <div class="bc-price"><span class="price" data-bundle-total>—</span></div>
+                <div class="bc-unit" data-bundle-unit>—</div>
+              </button>
+            {%- endif -%}{%- endfor -%}
+          </div>
+        </div>
+        {%- endif -%}
+
+        <!-- ADDON -->
+        {%- liquid
+          assign addon = all_products[section.settings.addon_product]
+          if addon == empty or addon == blank
+            for p in collections.all.products
+              if p.handle != product.handle and p.handle != 'shipping-protection' and p.available
+                assign addon = p
+                break
+              endif
+            endfor
+          endif
+        -%}
+        {%- if addon != empty and addon != blank -%}
+          <div class="opt-group addon-group">
+            <div class="opt-label">{{ section.settings.addon_label | default: 'Frequently bought together' }}</div>
+          <label class="addon-row">
+            <input type="checkbox" id="addonChk" data-addon-id="{{ addon.selected_or_first_available_variant.id }}" data-addon-cents="{{ addon.price }}">
+            <span class="addon-box">
+              <span class="addon-img">
+                {%- if addon.featured_media -%}
+                  {{ addon.featured_media | image_url: width: 96 | image_tag: alt: addon.title, loading: 'lazy', class: 'addon-thumb' }}
+                {%- else -%}🎴{%- endif -%}
+              </span>
+              <span class="addon-text">
+                <strong>Add {{ addon.title }}</strong>
+                <span>{{ section.settings.addon_text | default: 'Doubles the drawing variety.' }}</span>
+              </span>
+              <span class="addon-price">
+                {%- if addon.compare_at_price > addon.price -%}<span class="price" style="text-decoration:line-through;color:var(--muted);margin-right:6px;font-weight:600">{{ addon.compare_at_price | money }}</span>{%- endif -%}
+                +<span class="price">{{ addon.price | money }}</span>
+              </span>
+            </span>
+          </label>
+          </div>
+        {%- endif -%}
+
+        <div class="line-breakdown" id="lineBreakdown"></div>
+
+        <!-- STOCK + PROGRESS -->
+        {%- if section.settings.show_stock -%}
+        <div class="stock-line">
+          <div class="stock-text">🔥 Selling fast — Only <strong id="stockCount">{{ section.settings.stock_count | default: 7 }}</strong> left in this batch</div>
+          <div class="stock-bar"><div class="stock-fill" id="stockFill" style="width:{{ section.settings.stock_pct | default: 73 }}%"></div></div>
+          <div class="stock-meta"><strong>{{ section.settings.stock_pct | default: 73 }}%</strong> claimed</div>
+        </div>
+        {%- endif -%}
+
+        <!-- COUNTDOWN -->
+        {%- if section.settings.show_countdown -%}
+        <div class="countdown">
+          <span>⏰ Sale ends in:</span>
+          <span class="cdv" id="cdH">23</span><b>:</b>
+          <span class="cdv" id="cdM">59</span><b>:</b>
+          <span class="cdv" id="cdS">59</span>
+        </div>
+        {%- endif -%}
+
+        <!-- CTAS -->
+        <button type="submit" class="btn btn-primary btn-block btn-lg pulse" id="buyNow" style="margin-bottom:10px" {% unless cur.available %}disabled{% endunless %}>
+          {%- if cur.available -%}Buy Now — <span id="buyTotal">{{ cur.price | money }}</span>{%- else -%}Sold Out{%- endif -%}
+        </button>
+        <button type="button" class="btn btn-secondary btn-block" id="addToCart" {% unless cur.available %}disabled{% endunless %}>
+          Add to Cart — <span id="atcTotal">{{ cur.price | money }}</span>
+        </button>
+      {% endform %}
+
+      <div class="trust-row">
+        <span>🔒 Secure</span><span>🚚 Free Ship</span><span>💖 30-Day Guarantee</span><span>↩ Easy Returns</span>
+      </div>
+
+      {%- if section.settings.box_contents != blank -%}
+      <details class="box-details">
+        <summary>📦 What's in the box</summary>
+        <ul>
+          {%- assign box = section.settings.box_contents | newline_to_br | split: '<br />' -%}
+          {%- for line in box -%}{%- assign l = line | strip -%}{%- if l != '' -%}<li>{{ l }}</li>{%- endif -%}{%- endfor -%}
+        </ul>
+      </details>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<!-- Sticky mobile ATC -->
+<div class="sticky-atc" id="stickyAtc">
+  {%- if product.featured_media -%}
+    <img src="{{ product.featured_media | image_url: width: 80 }}" alt="" width="48" height="48">
+  {%- else -%}
+    <div style="width:48px;height:48px;border-radius:10px;background:var(--pink-wash)"></div>
+  {%- endif -%}
+  <div class="sa-text">
+    <strong>{{ product.title }}</strong>
+    <span><span class="price" id="saPrice">{{ cur.price | money }}</span></span>
+  </div>
+  <button class="btn btn-primary pulse" id="stickyAtcBtn" {% unless cur.available %}disabled{% endunless %}>Add to Cart</button>
+</div>
+
+<style>
+  #shopify-section-{{ section.id }} h1 { color: var(--ink); }
+</style>
+
+<script>
+(function () {
+  var root = document.getElementById('buySection');
+  if (!root) return;
+  var variants = [];
+  try { variants = JSON.parse(root.querySelector('[data-variant-json]').textContent); } catch (e) {}
+  var idInput = root.querySelector('[data-variant-id]');
+  var qtyInput = root.querySelector('[data-qty-input]');
+  var selected = {};
+  // seed selected from active buttons
+  root.querySelectorAll('.variant-row[data-option-index]').forEach(function (row) {
+    var pos = parseInt(row.getAttribute('data-option-index'), 10);
+    var active = row.querySelector('.variant-card.active');
+    if (active) selected[pos] = active.getAttribute('data-value');
+  });
+  var bundleQty = 1, bundleDiscount = 0;
+  var addonChk = document.getElementById('addonChk');
+  var addonCents = addonChk ? parseInt(addonChk.getAttribute('data-addon-cents') || '0', 10) : 0;
+
+  function money(cents) {
+    try { var c = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'USD';
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency: c }).format(cents / 100); }
+    catch (e) { return '$' + (cents / 100).toFixed(2); }
+  }
+  function currentVariant() {
+    if (!variants.length) return null;
+    if (variants.length === 1) return variants[0];
+    return variants.find(function (v) {
+      return (selected[0] == null || v.option1 === selected[0]) &&
+             (selected[1] == null || v.option2 === selected[1]) &&
+             (selected[2] == null || v.option3 === selected[2]);
+    }) || variants[0];
+  }
+  function gallerySwap(v) {
+    if (v && v.featured_image && v.featured_image.src) {
+      var m = document.getElementById('galMain'); if (m) m.src = v.featured_image.src.replace(/(\.[^.?]+)(\?|$)/, '_800x$1$2');
+    }
+  }
+  function render() {
+    var v = currentVariant();
+    if (!v) return;
+    if (idInput) idInput.value = v.id;
+    var unit = v.price, lineRobot = unit * bundleQty;
+    if (bundleDiscount > 0) lineRobot = Math.round(lineRobot * (100 - bundleDiscount) / 100);
+    var total = lineRobot + (addonChk && addonChk.checked ? addonCents : 0);
+    var bp = document.getElementById('bundlePrice'); if (bp) bp.textContent = money(total);
+    var bc = document.getElementById('bundleCompare');
+    if (bc && v.compare_at_price && v.compare_at_price > v.price) bc.textContent = money(v.compare_at_price * bundleQty);
+    var bt = document.getElementById('buyTotal'); if (bt) bt.textContent = money(total);
+    var at = document.getElementById('atcTotal'); if (at) at.textContent = money(total);
+    var sa = document.getElementById('saPrice'); if (sa) sa.textContent = money(total);
+    if (qtyInput) qtyInput.value = bundleQty;
+    // bundle card prices
+    root.querySelectorAll('[data-bundle]').forEach(function (card) {
+      var q = parseInt(card.getAttribute('data-qty'), 10);
+      var d = parseInt(card.getAttribute('data-discount') || '0', 10);
+      var raw = unit * q, net = d > 0 ? Math.round(raw * (100 - d) / 100) : raw;
+      var tEl = card.querySelector('[data-bundle-total]'); if (tEl) tEl.textContent = money(net);
+      var uEl = card.querySelector('[data-bundle-unit]');
+      if (uEl) {
+        if (q === 1) uEl.innerHTML = 'Total · ' + money(net);
+        else uEl.innerHTML = money(Math.round(net / q)) + '/each' + (v.compare_at_price ? ' · was ' + money(v.compare_at_price * q) : '');
+      }
+    });
+    // line breakdown
+    var lb = document.getElementById('lineBreakdown');
+    if (lb) {
+      lb.innerHTML = '<div class="lb-row"><span>' + (document.querySelector('h1') ? document.querySelector('h1').textContent : 'Item') + ' × ' + bundleQty + '</span><strong>' + money(lineRobot) + '</strong></div>' +
+        (addonChk && addonChk.checked ? '<div class="lb-row"><span>Add-on × 1</span><strong>+' + money(addonCents) + '</strong></div>' : '');
+    }
+    // availability
+    var buyBtn = document.getElementById('buyNow'), atcBtn = document.getElementById('addToCart');
+    if (v.available) { if (buyBtn) buyBtn.disabled = false; if (atcBtn) atcBtn.disabled = false; }
+    else { if (buyBtn) { buyBtn.disabled = true; buyBtn.textContent = 'Sold Out'; } if (atcBtn) atcBtn.disabled = true; }
+    gallerySwap(v);
+  }
+
+  // option buttons
+  root.querySelectorAll('.variant-card[data-opt-value]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pos = parseInt(btn.getAttribute('data-opt-pos'), 10);
+      var row = btn.closest('.variant-row');
+      row.querySelectorAll('.variant-card').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      selected[pos] = btn.getAttribute('data-value');
+      var lbl = root.querySelector('[data-opt-label="' + pos + '"]'); if (lbl) lbl.textContent = btn.getAttribute('data-value');
+      render();
+    });
+  });
+  // bundle buttons
+  root.querySelectorAll('[data-bundle]').forEach(function (card) {
+    card.addEventListener('click', function () {
+      root.querySelectorAll('[data-bundle]').forEach(function (c) { c.classList.remove('active'); });
+      card.classList.add('active');
+      bundleQty = parseInt(card.getAttribute('data-qty'), 10);
+      bundleDiscount = parseInt(card.getAttribute('data-discount') || '0', 10);
+      render();
+    });
+  });
+  // default bundle = active one
+  var defBundle = root.querySelector('[data-bundle].active');
+  if (defBundle) { bundleQty = parseInt(defBundle.getAttribute('data-qty'), 10); bundleDiscount = parseInt(defBundle.getAttribute('data-discount') || '0', 10); }
+  if (addonChk) addonChk.addEventListener('change', render);
+
+  // gallery thumbs
+  document.querySelectorAll('.gthumb').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.gthumb').forEach(function (x) { x.classList.remove('active'); });
+      t.classList.add('active');
+      var m = document.getElementById('galMain'); if (m) m.src = t.getAttribute('data-src');
+    });
+  });
+
+  function buildItems() {
+    var v = currentVariant();
+    var vid = (idInput && idInput.value) ? parseInt(idInput.value, 10) : (v ? v.id : null);
+    var items = [{ id: vid, quantity: bundleQty }];
+    if (addonChk && addonChk.checked) items.push({ id: parseInt(addonChk.getAttribute('data-addon-id'), 10), quantity: 1 });
+    return items;
+  }
+  function flashError(btn, msg) {
+    if (!btn) return;
+    var old = btn.innerHTML;
+    btn.innerHTML = msg || 'Try again';
+    btn.disabled = false;
+    setTimeout(function () { btn.innerHTML = old; }, 1800);
+  }
+  function addAll(redirect, srcBtn) {
+    var items = buildItems();
+    if (!items[0].id) { flashError(srcBtn, 'Select an option'); return; }
+    if (srcBtn) { srcBtn.dataset._t = srcBtn.innerHTML; srcBtn.innerHTML = 'Adding…'; srcBtn.disabled = true; }
+    fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ items: items }) })
+      .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+      .then(function (res) {
+        if (srcBtn) { srcBtn.disabled = false; if (srcBtn.dataset._t) srcBtn.innerHTML = srcBtn.dataset._t; }
+        if (!res.ok) { flashError(srcBtn, (res.data && res.data.description) ? 'Unavailable' : 'Try again'); return; }
+        if (redirect) { window.location.href = '/checkout'; return; }
+        if (window.didiRefreshCart) window.didiRefreshCart();
+        if (window.didiOpenCart) window.didiOpenCart(); else window.location.href = '/cart';
+      })
+      .catch(function () { if (srcBtn) { srcBtn.disabled = false; if (srcBtn.dataset._t) srcBtn.innerHTML = srcBtn.dataset._t; } flashError(srcBtn, 'Try again'); });
+  }
+  var atc = document.getElementById('addToCart'); if (atc) atc.addEventListener('click', function (e) { e.preventDefault(); addAll(false, atc); });
+  var sticky = document.getElementById('stickyAtcBtn'); if (sticky) sticky.addEventListener('click', function (e) { e.preventDefault(); addAll(false, sticky); });
+  var form = document.getElementById('{{ fid }}');
+  if (form) form.addEventListener('submit', function (e) { e.preventDefault(); addAll(true, document.getElementById('buyNow')); });
+
+  // countdown
+  var cdH = document.getElementById('cdH'), cdM = document.getElementById('cdM'), cdS = document.getElementById('cdS');
+  if (cdH && cdM && cdS) {
+    var total = 24 * 3600;
+    setInterval(function () {
+      if (total <= 0) total = 24 * 3600;
+      cdH.textContent = String(Math.floor(total / 3600)).padStart(2, '0');
+      cdM.textContent = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+      cdS.textContent = String(total % 60).padStart(2, '0');
+      total--;
+    }, 1000);
+  }
+  // live viewers
+  var lv = document.getElementById('liveCount');
+  if (lv) setInterval(function () {
+    var cur = parseInt(lv.textContent, 10) || 100, d = Math.floor(Math.random() * 7) - 3;
+    lv.textContent = Math.max(85, Math.min(160, cur + d));
+  }, 4000);
+
+  render();
+})();
+</script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Product buy box",
+  "settings": [
+    { "type": "textarea", "id": "benefits", "label": "Benefits (one per line)", "default": "Screen-free, app-free learning\n150+ illustrated drawing cards\nBuilds fine-motor & writing skills\nTeaches color & shape recognition\nChild-safe materials, ages 5+" },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "2,318" },
+    { "type": "checkbox", "id": "show_live_viewers", "label": "Show live viewers", "default": true },
+    { "type": "number", "id": "live_viewers_start", "label": "Live viewers start", "default": 115 },
+    { "type": "checkbox", "id": "show_bundles", "label": "Show bundle & save", "default": true },
+    { "type": "product", "id": "addon_product", "label": "Add-on product (blank = auto-pick another)" },
+    { "type": "text", "id": "addon_label", "label": "Add-on box label", "default": "Frequently bought together" },
+    { "type": "text", "id": "addon_text", "label": "Add-on description", "default": "Doubles the drawing variety — animals, plants, transport & more." },
+    { "type": "checkbox", "id": "show_stock", "label": "Show stock bar", "default": true },
+    { "type": "number", "id": "stock_count", "label": "Stock count", "default": 7 },
+    { "type": "range", "id": "stock_pct", "label": "Percent claimed", "min": 0, "max": 100, "step": 1, "default": 73 },
+    { "type": "checkbox", "id": "show_countdown", "label": "Show countdown", "default": true },
+    { "type": "textarea", "id": "box_contents", "label": "What's in the box (one per line)", "default": "1× Drawing Robot\n100+ drawing cards\n2× Cartoon sticker sheets\n2× Black pens\n6× Random color pens\n1× USB charging cable\n1× Manual" }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Bundle tier",
+      "settings": [
+        { "type": "number", "id": "qty", "label": "Quantity", "default": 1 },
+        { "type": "range", "id": "discount_pct", "label": "Discount %", "min": 0, "max": 50, "step": 1, "default": 0 },
+        { "type": "text", "id": "tag", "label": "Tag", "default": "Standard" },
+        { "type": "checkbox", "id": "popular", "label": "Most popular", "default": false },
+        { "type": "checkbox", "id": "is_default", "label": "Default selected", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Product buy box",
+      "blocks": [
+        { "type": "bundle", "settings": { "qty": 1, "discount_pct": 0, "tag": "Standard", "popular": false, "is_default": false } },
+        { "type": "bundle", "settings": { "qty": 2, "discount_pct": 10, "tag": "Save 10%", "popular": true, "is_default": true } },
+        { "type": "bundle", "settings": { "qty": 3, "discount_pct": 15, "tag": "Save 15%", "popular": false, "is_default": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}

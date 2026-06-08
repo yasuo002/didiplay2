@@ -1,0 +1,106 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+{%- assign count = section.blocks.size | default: 1 -%}
+<section class="below-fold didiplay-videos {{ section.settings.bg_class }}">
+  <div class="container">
+    {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p>{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+    {%- endif -%}
+
+    <div class="vid-row reveal" style="--cols:{{ count }}">
+      {%- for block in section.blocks -%}
+        <div class="vid-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.video != blank -%}
+            {{ block.settings.video | media_tag: image_size: '600x', autoplay: true, loop: true, muted: true, controls: false }}
+          {%- elsif block.settings.video_url != blank -%}
+            <div class="vid-embed" data-embed="{{ block.settings.video_url | escape }}"></div>
+          {%- else -%}
+            <div class="vid-ph" style="background:{{ block.settings.poster_bg | default: '#FFE3EE' }};color:{{ block.settings.poster_fg | default: '#FF6B9D' }}">Add a video</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="center reveal" style="margin-top:34px">
+        <a href="{{ section.settings.cta_link | default: '#buySection' }}" class="btn btn-primary btn-lg pulse">{{ section.settings.cta_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .didiplay-videos .vid-row{ display:grid; grid-template-columns:repeat(var(--cols,4),1fr); gap:18px; align-items:stretch; }
+  .didiplay-videos .vid-card{ position:relative; aspect-ratio:9/16; border-radius:20px; overflow:hidden; background:var(--pink-wash); box-shadow:var(--shadow-sm); }
+  .didiplay-videos .vid-card video,
+  .didiplay-videos .vid-card iframe,
+  .didiplay-videos .vid-card .vid-ph{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border:0; display:block; }
+  .didiplay-videos .vid-ph{ display:flex; align-items:center; justify-content:center; font-family:Sora,sans-serif; font-weight:800; font-size:1.1rem; text-align:center; padding:16px; }
+  @media (max-width:1024px){ .didiplay-videos .vid-row{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .didiplay-videos .vid-row{ grid-template-columns:1fr 1fr; gap:10px; } }
+</style>
+
+<script>
+(function(){
+  // External URLs -> autoplaying, muted, looping embeds
+  function embed(url){
+    var yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+    if(yt){ var id=yt[1]; return '<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1&loop=1&playlist='+id+'&controls=0&playsinline=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>'; }
+    var vm = url.match(/vimeo\.com\/(\d+)/);
+    if(vm){ return '<iframe src="https://player.vimeo.com/video/'+vm[1]+'?autoplay=1&muted=1&loop=1&background=1" allow="autoplay" allowfullscreen></iframe>'; }
+    var tk = url.match(/tiktok\.com\/.*\/video\/(\d+)/);
+    if(tk){ return '<iframe src="https://www.tiktok.com/embed/v2/'+tk[1]+'?autoplay=1&muted=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>'; }
+    if(/\.(mp4|webm|ogg)(\?|$)/i.test(url)){ return '<video src="'+url+'" autoplay loop muted playsinline></video>'; }
+    return '<iframe src="'+url+'" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+  }
+  document.querySelectorAll('.didiplay-videos .vid-embed').forEach(function(el){
+    var url = el.getAttribute('data-embed'); if(url) el.innerHTML = embed(url);
+  });
+  // ensure uploaded <video> tags keep playing (muted autoplay)
+  document.querySelectorAll('.didiplay-videos video').forEach(function(v){
+    v.muted = true; v.loop = true; v.setAttribute('playsinline',''); v.removeAttribute('controls');
+    var p = v.play(); if(p && p.catch) p.catch(function(){});
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Video cards",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "See It In Action" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Watch Kids Create With didiplay" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Real families, real drawings." },
+    { "type": "select", "id": "bg_class", "label": "Background", "default": "section-soft", "options": [ {"value":"","label":"White"}, {"value":"section-soft","label":"Soft"}, {"value":"section-pink","label":"Pink"} ] },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Get Yours — 43% Off" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Uploaded video (autoplays, muted, loops)" },
+        { "type": "url", "id": "video_url", "label": "Or external URL (YouTube / TikTok / Vimeo / MP4)" },
+        { "type": "text", "id": "poster_bg", "label": "Placeholder bg", "default": "#FFE3EE" },
+        { "type": "text", "id": "poster_fg", "label": "Placeholder text color", "default": "#FF6B9D" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Video cards",
+      "blocks": [
+        { "type": "video", "settings": { "poster_bg": "#FFE3EE", "poster_fg": "#FF6B9D" } },
+        { "type": "video", "settings": { "poster_bg": "#F4EEFF", "poster_fg": "#7C3AED" } },
+        { "type": "video", "settings": { "poster_bg": "#E0FAF2", "poster_fg": "#2BC4B0" } },
+        { "type": "video", "settings": { "poster_bg": "#FFF6E0", "poster_fg": "#F5B400" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

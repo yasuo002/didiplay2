@@ -1,0 +1,54 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+<section class="section-soft below-fold">
+  <div class="container">
+    <div class="section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+    <div class="compare-wrap reveal">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th></th>
+            <th><div class="ch-cell muted">{{ section.settings.col_a }}</div></th>
+            <th><div class="ch-cell brand">{{ section.settings.col_b }}</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}><td>{{ block.settings.label }}</td><td><span class="x">✗</span></td><td><span class="v">✓</span></td></tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Comparison table",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why didiplay" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Not Just Another Drawing Toy" },
+    { "type": "text", "id": "col_a", "label": "Column A", "default": "Ordinary Drawing Toys 😕" },
+    { "type": "text", "id": "col_b", "label": "Column B", "default": "didiplay Robot 💖" }
+  ],
+  "blocks": [
+    { "type": "row", "name": "Row", "settings": [ { "type": "text", "id": "label", "label": "Label", "default": "Screen-free & app-free" } ] }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Comparison table",
+      "blocks": [
+        { "type": "row", "settings": { "label": "Screen-free & app-free" } },
+        { "type": "row", "settings": { "label": "Actually teaches drawing technique" } },
+        { "type": "row", "settings": { "label": "150+ guided learning cards" } },
+        { "type": "row", "settings": { "label": "Builds fine-motor & writing skills" } },
+        { "type": "row", "settings": { "label": "Child-safe materials" } },
+        { "type": "row", "settings": { "label": "Keeps kids engaged for months" } },
+        { "type": "row", "settings": { "label": "30-day money-back guarantee" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

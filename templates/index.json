@@ -1,0 +1,318 @@
+{
+  "sections": {
+    "hero": {
+      "type": "didiplay-home-hero",
+      "settings": {
+        "badge": "Loved by 12,400+ families worldwide",
+        "heading": "Watch Your Child Discover the Joy of Drawing",
+        "subheading": "The screen-free robot that teaches kids 5+ to draw, step by step — building creativity, focus, and confidence with every picture.",
+        "image_placeholder": "Pink Drawing Robot",
+        "rating": "4.9",
+        "rating_text": "Join 12,400+ happy families",
+        "badge_families": "12,400+",
+        "cta_label": "Get Yours Today — 43% Off",
+        "cta2_label": "See How It Works ↓",
+        "trust_1": "Free shipping",
+        "trust_2": "30-day guarantee",
+        "trust_3": "Secure checkout"
+      }
+    },
+    "stats": {
+      "type": "didiplay-stats",
+      "blocks": {
+        "s1": {
+          "type": "stat",
+          "settings": {
+            "value": "12400",
+            "suffix": "+",
+            "is_decimal": false,
+            "label": "Happy Families"
+          }
+        },
+        "s2": {
+          "type": "stat",
+          "settings": {
+            "value": "38000",
+            "suffix": "+",
+            "is_decimal": false,
+            "label": "Robots Shipped"
+          }
+        },
+        "s3": {
+          "type": "stat",
+          "settings": {
+            "value": "4.9",
+            "suffix": "★",
+            "is_decimal": true,
+            "label": "Average Rating"
+          }
+        },
+        "s4": {
+          "type": "stat",
+          "settings": {
+            "value": "47",
+            "suffix": "",
+            "is_decimal": false,
+            "label": "Countries Served"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {}
+    },
+    "best": {
+      "type": "didiplay-bestsellers",
+      "blocks": {
+        "b1": {
+          "type": "product_card",
+          "settings": {
+            "title": "Drawing Robot for Kids",
+            "badge": "43% OFF",
+            "rating": "4.9",
+            "review_count": "2,318",
+            "price": "$39.99",
+            "compare": "$69.99",
+            "placeholder_bg": "#FFE3EE",
+            "placeholder_fg": "#FF6B9D"
+          }
+        },
+        "b2": {
+          "type": "product_card",
+          "settings": {
+            "title": "150-Card Mega Pack",
+            "badge": "40% OFF",
+            "rating": "4.8",
+            "review_count": "847",
+            "price": "$14.99",
+            "compare": "$24.99",
+            "placeholder_bg": "#F4EEFF",
+            "placeholder_fg": "#7C3AED"
+          }
+        },
+        "b3": {
+          "type": "product_card",
+          "settings": {
+            "title": "Washable Color Pen Refill (12-Pack)",
+            "badge": "",
+            "rating": "4.7",
+            "review_count": "412",
+            "price": "$9.99",
+            "compare": "",
+            "placeholder_bg": "#E0FAF2",
+            "placeholder_fg": "#2BC4B0"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "eyebrow": "Best Sellers",
+        "heading": "Loved by Little Artists Everywhere",
+        "subheading": "Carefully designed, parent-approved, and built to keep kids happily creating — screen-free."
+      }
+    },
+    "brands": {
+      "type": "didiplay-brands",
+      "blocks": {
+        "br1": {
+          "type": "brand",
+          "settings": {
+            "name": "Trustpilot ★"
+          }
+        },
+        "br2": {
+          "type": "brand",
+          "settings": {
+            "name": "amazon"
+          }
+        },
+        "br3": {
+          "type": "brand",
+          "settings": {
+            "name": "ebay"
+          }
+        },
+        "br4": {
+          "type": "brand",
+          "settings": {
+            "name": "Parents"
+          }
+        },
+        "br5": {
+          "type": "brand",
+          "settings": {
+            "name": "Mom's Choice"
+          }
+        },
+        "br6": {
+          "type": "brand",
+          "settings": {
+            "name": "Good Housekeeping"
+          }
+        }
+      },
+      "block_order": [
+        "br1",
+        "br2",
+        "br3",
+        "br4",
+        "br5",
+        "br6"
+      ],
+      "settings": {
+        "heading": "As Loved & Featured On"
+      }
+    },
+    "why": {
+      "type": "didiplay-why",
+      "blocks": {
+        "w1": {
+          "type": "card",
+          "settings": {
+            "icon": "🚚",
+            "icon_bg": "#FFF1F6",
+            "title": "Free Worldwide Shipping",
+            "body": "Your child's new favorite toy ships free, anywhere in the world."
+          }
+        },
+        "w2": {
+          "type": "card",
+          "settings": {
+            "icon": "💬",
+            "icon_bg": "#F4EEFF",
+            "title": "Friendly 24/7 Support",
+            "body": "Real humans ready to help before and after your purchase."
+          }
+        },
+        "w3": {
+          "type": "card",
+          "settings": {
+            "icon": "🔒",
+            "icon_bg": "#E0FAF2",
+            "title": "Secure Checkout",
+            "body": "Encrypted, trusted payment — your details are always protected."
+          }
+        },
+        "w4": {
+          "type": "card",
+          "settings": {
+            "icon": "💖",
+            "icon_bg": "#FFF1F6",
+            "title": "30-Day Happiness Guarantee",
+            "body": "Not delighted? Send it back within 30 days for a full refund."
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4"
+      ],
+      "settings": {
+        "eyebrow": "The didiplay Promise",
+        "heading": "Why Thousands of Parents Choose didiplay",
+        "subheading": "Honest, reliable, and built around what your family actually needs."
+      }
+    },
+    "reviews": {
+      "type": "didiplay-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "location": "Austin, TX",
+            "verified": true,
+            "title": "\"My 5-year-old is obsessed\"",
+            "body": "He used to beg for my phone every afternoon. Now he runs to his drawing robot instead. Watching him trace the animals and color them in has done wonders for his focus.",
+            "date": "April 18, 2026"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Daniel K.",
+            "location": "Manchester, UK",
+            "verified": true,
+            "title": "\"Finally, screen-free fun that sticks\"",
+            "body": "We've tried a dozen educational toys that got ignored after a week. This one's been a daily ritual for two months. The cards keep it fresh.",
+            "date": "March 30, 2026"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Priya R.",
+            "location": "Toronto, CA",
+            "verified": true,
+            "title": "\"Gift-winner of the year\"",
+            "body": "Bought it for my niece's 6th birthday and it stole the whole party. Three other parents asked me where I got it before the cake was even cut.",
+            "date": "March 12, 2026"
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "name": "Emma L.",
+            "location": "Sydney, AU",
+            "verified": true,
+            "title": "\"You can see her confidence growing\"",
+            "body": "She used to say I can't draw. Now she proudly shows me every crab and hippo she finishes and we stick them on the fridge.",
+            "date": "February 27, 2026"
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "name": "Marcus T.",
+            "location": "Berlin, DE",
+            "verified": true,
+            "title": "\"Sturdy, safe, and genuinely clever\"",
+            "body": "Feels well made, no sharp bits, and the step-by-step drawing actually teaches technique. My son's pencil grip has improved noticeably in six weeks.",
+            "date": "February 9, 2026"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
+      "settings": {
+        "eyebrow": "Real Parents, Real Wins",
+        "heading": "What Parents Are Saying",
+        "summary": "4.9 average from 2,318 verified reviews"
+      }
+    },
+    "cta": {
+      "type": "didiplay-final-cta",
+      "settings": {
+        "scarcity": "Only 11 left at this price",
+        "heading": "Give the Gift of Creativity Today",
+        "subheading": "Hours of joyful, screen-free play — and a child who actually looks forward to drawing.",
+        "cta_label": "Claim My 43% Discount →",
+        "help_text": "Got questions?"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "stats",
+    "best",
+    "brands",
+    "why",
+    "reviews",
+    "cta"
+  ]
+}

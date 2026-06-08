@@ -1,0 +1,47 @@
+{{ 'didiplay-product.css' | asset_url | stylesheet_tag }}
+<section class="below-fold" style="padding-top:0">
+  <div class="container">
+    <div class="proof-card reveal">
+      {%- for block in section.blocks -%}
+        <div class="pc-col" {{ block.shopify_attributes }}>
+          <div class="pc-num">
+            {%- if block.settings.countup -%}<span class="countup" data-target="{{ block.settings.value }}"{% if block.settings.is_decimal %} data-decimals="1"{% endif %}>0</span>{{ block.settings.suffix }}{%- else -%}{{ block.settings.value }}{{ block.settings.suffix }}{%- endif -%}
+          </div>
+          <div class="pc-title">{{ block.settings.title }}</div>
+          <div class="pc-sub">{{ block.settings.sub }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Proof stats card",
+  "blocks": [
+    {
+      "type": "col",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "4.9" },
+        { "type": "text", "id": "suffix", "label": "Suffix", "default": "★" },
+        { "type": "checkbox", "id": "countup", "label": "Animate count up", "default": false },
+        { "type": "checkbox", "id": "is_decimal", "label": "Decimal", "default": false },
+        { "type": "text", "id": "title", "label": "Title", "default": "Average Rating" },
+        { "type": "text", "id": "sub", "label": "Subtext", "default": "Based on verified reviews" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Proof stats card",
+      "blocks": [
+        { "type": "col", "settings": { "value": "4.9", "suffix": "★", "title": "Average Rating", "sub": "Based on verified reviews" } },
+        { "type": "col", "settings": { "value": "12400", "suffix": "+", "countup": true, "title": "Happy Families", "sub": "And growing daily" } },
+        { "type": "col", "settings": { "value": "98", "suffix": "%", "title": "Would Recommend", "sub": "To friends & family" } },
+        { "type": "col", "settings": { "value": "47", "suffix": "", "title": "Countries Served", "sub": "Worldwide delivery" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

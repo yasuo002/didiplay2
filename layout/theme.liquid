@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_accent | default: '#FF6B9D' }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+  <title>{{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif %}</title>
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  {{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+  {{ 'didiplay-mobile.css' | asset_url | stylesheet_tag }}
+
+  <style>
+    :root{
+      --pink: {{ settings.color_accent | default: '#FF6B9D' }};
+      --purple: {{ settings.color_accent_2 | default: '#7C3AED' }};
+    }
+  </style>
+
+  {{ content_for_header }}
+</head>
+<body class="didiplay-theme template-{{ request.page_type | handle }}">
+  <a class="didiplay-skip" href="#MainContent" style="position:absolute;left:-9999px">Skip to content</a>
+
+  {% sections 'header-group' %}
+
+  <main id="MainContent" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {%- render 'didiplay-cart-drawer' -%}
+
+  {{ 'didiplay-effects.js' | asset_url | script_tag }}
+  {{ 'didiplay-cart.js' | asset_url | script_tag }}
+</body>
+</html>

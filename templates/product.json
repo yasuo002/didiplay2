@@ -1,0 +1,545 @@
+{
+  "sections": {
+    "buybox": {
+      "type": "didiplay-buybox",
+      "blocks": {
+        "t1": {
+          "type": "bundle",
+          "settings": {
+            "qty": 1,
+            "discount_pct": 0,
+            "tag": "Standard",
+            "popular": false,
+            "is_default": false
+          }
+        },
+        "t2": {
+          "type": "bundle",
+          "settings": {
+            "qty": 2,
+            "discount_pct": 10,
+            "tag": "Save 10%",
+            "popular": true,
+            "is_default": true
+          }
+        },
+        "t3": {
+          "type": "bundle",
+          "settings": {
+            "qty": 3,
+            "discount_pct": 15,
+            "tag": "Save 15%",
+            "popular": false,
+            "is_default": false
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "benefits": "Screen-free, app-free learning\n150+ illustrated drawing cards\nBuilds fine-motor & writing skills\nTeaches color & shape recognition\nChild-safe materials, ages 5+",
+        "review_count": "2,318",
+        "show_live_viewers": true,
+        "live_viewers_start": 115,
+        "show_bundles": true,
+        "addon_text": "Doubles the drawing variety — animals, plants, transport & more.",
+        "show_stock": true,
+        "stock_count": 7,
+        "stock_pct": 73,
+        "show_countdown": true,
+        "box_contents": "1× Drawing Robot\n100+ drawing cards\n2× Cartoon sticker sheets\n2× Black pens\n6× Random color pens\n1× USB charging cable\n1× Manual"
+      }
+    },
+    "proof": {
+      "type": "didiplay-proof",
+      "blocks": {
+        "p1": {
+          "type": "col",
+          "settings": {
+            "value": "4.9",
+            "suffix": "★",
+            "countup": false,
+            "title": "Average Rating",
+            "sub": "Based on verified reviews"
+          }
+        },
+        "p2": {
+          "type": "col",
+          "settings": {
+            "value": "12400",
+            "suffix": "+",
+            "countup": true,
+            "title": "Happy Families",
+            "sub": "And growing daily"
+          }
+        },
+        "p3": {
+          "type": "col",
+          "settings": {
+            "value": "98",
+            "suffix": "%",
+            "countup": false,
+            "title": "Would Recommend",
+            "sub": "To friends & family"
+          }
+        },
+        "p4": {
+          "type": "col",
+          "settings": {
+            "value": "47",
+            "suffix": "",
+            "countup": false,
+            "title": "Countries Served",
+            "sub": "Worldwide delivery"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {}
+    },
+    "benefits": {
+      "type": "didiplay-feature-grid",
+      "blocks": {
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "icon": "✏️",
+            "icon_bg": "#FFF1F6",
+            "icon_fg": "#FF6B9D",
+            "title": "Step-by-Step Drawing",
+            "body": "The robot arm draws each picture so kids can follow, trace, and master it."
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "icon": "🧠",
+            "icon_bg": "#F4EEFF",
+            "icon_fg": "#7C3AED",
+            "title": "Builds Real Skills",
+            "body": "Strengthens hand-eye coordination, focus, and early writing ability."
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "icon": "🎴",
+            "icon_bg": "#E0FAF2",
+            "icon_fg": "#2BC4B0",
+            "title": "150+ Drawing Cards",
+            "body": "Animals, plants, transport, food and more — endless variety keeps kids hooked."
+          }
+        },
+        "f4": {
+          "type": "feature",
+          "settings": {
+            "icon": "📵",
+            "icon_bg": "#FFF1F6",
+            "icon_fg": "#FF6B9D",
+            "title": "Zero Screens, Zero Apps",
+            "body": "Pure, healthy, hands-on play. Nothing to download, nothing to plug them into."
+          }
+        },
+        "f5": {
+          "type": "feature",
+          "settings": {
+            "icon": "🎨",
+            "icon_bg": "#F4EEFF",
+            "icon_fg": "#7C3AED",
+            "title": "Color Perception",
+            "body": "Guided coloring teaches kids to recognize shapes and combine colors with confidence."
+          }
+        },
+        "f6": {
+          "type": "feature",
+          "settings": {
+            "icon": "🛡️",
+            "icon_bg": "#E0FAF2",
+            "icon_fg": "#2BC4B0",
+            "title": "Safe & Sturdy",
+            "body": "Child-safe materials, rounded design, and rechargeable via USB — built for little hands."
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6"
+      ],
+      "settings": {
+        "eyebrow": "What It Actually Does",
+        "heading": "Real Skills, Real Joy, Real Screen-Free Play",
+        "subheading": "Six ways the didiplay Drawing Robot grows with your child — from first scribble to confident creator.",
+        "bg_class": "",
+        "grid_class": "benefits-grid",
+        "card_class": "b-card",
+        "icon_class": "b-icon"
+      }
+    },
+    "compare": {
+      "type": "didiplay-compare",
+      "blocks": {
+        "c1": {
+          "type": "row",
+          "settings": {
+            "label": "Screen-free & app-free"
+          }
+        },
+        "c2": {
+          "type": "row",
+          "settings": {
+            "label": "Actually teaches drawing technique"
+          }
+        },
+        "c3": {
+          "type": "row",
+          "settings": {
+            "label": "150+ guided learning cards"
+          }
+        },
+        "c4": {
+          "type": "row",
+          "settings": {
+            "label": "Builds fine-motor & writing skills"
+          }
+        },
+        "c5": {
+          "type": "row",
+          "settings": {
+            "label": "Child-safe materials"
+          }
+        },
+        "c6": {
+          "type": "row",
+          "settings": {
+            "label": "Keeps kids engaged for months"
+          }
+        },
+        "c7": {
+          "type": "row",
+          "settings": {
+            "label": "30-day money-back guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      "settings": {
+        "eyebrow": "Why didiplay",
+        "heading": "Not Just Another Drawing Toy",
+        "col_a": "Ordinary Drawing Toys 😕",
+        "col_b": "didiplay Robot 💖"
+      }
+    },
+    "imgtext": {
+      "type": "didiplay-imgtext",
+      "settings": {
+        "placeholder": "Step-by-Step Crab Demo",
+        "eyebrow": "From scribble to skill",
+        "heading": "From Blank Page to Proud Smile",
+        "body": "Your child slots in a card, follows the robot's strokes, then colors it in themselves. Every finished drawing is a little win that builds confidence — and a lifelong love of creating.",
+        "cta_label": "Get Mine — 43% Off"
+      }
+    },
+    "rings": {
+      "type": "didiplay-rings",
+      "blocks": {
+        "g1": {
+          "type": "ring",
+          "settings": {
+            "pct": 96,
+            "color": "#FF6B9D",
+            "title": "Improved Focus",
+            "sub": "in just 3 weeks",
+            "body": "Parents reported their child sticks with creative tasks longer."
+          }
+        },
+        "g2": {
+          "type": "ring",
+          "settings": {
+            "pct": 91,
+            "color": "#7C3AED",
+            "title": "Less Screen Time",
+            "sub": "parents reported",
+            "body": "A meaningful daily swap from tablets to hands-on play."
+          }
+        },
+        "g3": {
+          "type": "ring",
+          "settings": {
+            "pct": 94,
+            "color": "#2BC4B0",
+            "title": "Kids Use It Weekly",
+            "sub": "two months later",
+            "body": "It doesn't gather dust — it stays in rotation for the long haul."
+          }
+        },
+        "g4": {
+          "type": "ring",
+          "settings": {
+            "pct": 97,
+            "color": "#FF6B9D",
+            "title": "Would Gift It Again",
+            "sub": "to other parents",
+            "body": "It's the present that gets remembered long after the party."
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
+      "settings": {
+        "eyebrow": "The proof",
+        "heading": "Parents See the Difference",
+        "subheading": "Survey of 1,400+ didiplay families after 6 weeks of use."
+      }
+    },
+    "beforeafter": {
+      "type": "didiplay-beforeafter",
+      "settings": {
+        "eyebrow": "Before & After",
+        "heading": "\"I can't draw\" → A wall full of proud creations",
+        "before_text": "BEFORE · First Scribble",
+        "after_text": "AFTER · Confident Finished Drawing",
+        "caption": "Drag the handle to compare."
+      }
+    },
+    "pillars": {
+      "type": "didiplay-pillars",
+      "blocks": {
+        "k1": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "💖",
+            "title": "30-Day Money-Back",
+            "body": "Love it or send it back, no questions asked."
+          }
+        },
+        "k2": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "🔒",
+            "title": "Secure Checkout",
+            "body": "SSL-encrypted. Your details are always safe."
+          }
+        },
+        "k3": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "🚚",
+            "title": "Free Worldwide Shipping",
+            "body": "Ships free, anywhere we can reach."
+          }
+        },
+        "k4": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "💬",
+            "title": "Friendly Support",
+            "body": "Real humans, always happy to help."
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3",
+        "k4"
+      ],
+      "settings": {}
+    },
+    "faq": {
+      "type": "didiplay-faq",
+      "blocks": {
+        "q1": {
+          "type": "faq",
+          "settings": {
+            "question": "What age is the Drawing Robot for?",
+            "answer": "Designed for children 5 and up. Younger kids enjoy it with light supervision."
+          }
+        },
+        "q2": {
+          "type": "faq",
+          "settings": {
+            "question": "Does it need an app or screen?",
+            "answer": "No. It's completely screen-free and app-free — just insert a card and play."
+          }
+        },
+        "q3": {
+          "type": "faq",
+          "settings": {
+            "question": "How many drawing cards are included?",
+            "answer": "Over 150 illustrated cards across animals, plants, transport, food and more."
+          }
+        },
+        "q4": {
+          "type": "faq",
+          "settings": {
+            "question": "How is it powered?",
+            "answer": "It recharges via the included USB cable — no constant battery buying."
+          }
+        },
+        "q5": {
+          "type": "faq",
+          "settings": {
+            "question": "What if my child doesn't love it?",
+            "answer": "You're covered by our 30-day money-back guarantee, no questions asked."
+          }
+        },
+        "q6": {
+          "type": "faq",
+          "settings": {
+            "question": "Is it safe?",
+            "answer": "Yes — made from child-safe materials with a rounded, kid-friendly design."
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "eyebrow": "Questions?",
+        "heading": "Frequently Asked",
+        "subheading": "Can't find what you're looking for? We're here to help.",
+        "show_search": true
+      }
+    },
+    "pdpcta": {
+      "type": "didiplay-pdp-cta",
+      "settings": {
+        "scarcity": "Only 7 left at this price",
+        "heading": "Give Them a Reason to Put the Tablet Down",
+        "subheading": "Screen-free creativity that actually teaches. Free shipping, 30-day guarantee.",
+        "cta_label": "Add to Cart — 43% Off"
+      }
+    },
+    "how": {
+      "type": "didiplay-how",
+      "blocks": {
+        "h1": {
+          "type": "step",
+          "settings": {
+            "icon": "🎴",
+            "icon_bg": "#FFF1F6",
+            "title": "Insert a Card, Watch the Magic",
+            "body": "Pop in any of the 150+ cards and the robot draws it instantly — no setup, no apps, no wait."
+          }
+        },
+        "h2": {
+          "type": "step",
+          "settings": {
+            "icon": "📈",
+            "icon_bg": "#F4EEFF",
+            "title": "Grows With Your Child",
+            "body": "From simple shapes to detailed animals, the difficulty scales as their skills grow."
+          }
+        },
+        "h3": {
+          "type": "step",
+          "settings": {
+            "icon": "🎁",
+            "icon_bg": "#E0FAF2",
+            "title": "Complete Creative Kit",
+            "body": "Color pens, black pens, sticker sheets and a charging cable — ready out of the box."
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "h2",
+        "h3"
+      ],
+      "settings": {
+        "eyebrow": "How It Works",
+        "heading": "Creating in Three Simple Steps",
+        "subheading": "From the very first card to the hundredth drawing — it just works, beautifully."
+      }
+    },
+    "videos": {
+      "type": "didiplay-videos",
+      "blocks": {
+        "v1": {
+          "type": "video",
+          "settings": {
+            "poster_bg": "#FFE3EE",
+            "poster_fg": "#FF6B9D"
+          }
+        },
+        "v2": {
+          "type": "video",
+          "settings": {
+            "poster_bg": "#F4EEFF",
+            "poster_fg": "#7C3AED"
+          }
+        },
+        "v3": {
+          "type": "video",
+          "settings": {
+            "poster_bg": "#E0FAF2",
+            "poster_fg": "#2BC4B0"
+          }
+        },
+        "v4": {
+          "type": "video",
+          "settings": {
+            "poster_bg": "#FFF6E0",
+            "poster_fg": "#F5B400"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "settings": {
+        "eyebrow": "See It In Action",
+        "heading": "Watch Kids Create With didiplay",
+        "subheading": "Real families, real drawings.",
+        "bg_class": "section-soft",
+        "cta_label": "Get Yours — 43% Off"
+      }
+    }
+  },
+  "order": [
+    "buybox",
+    "proof",
+    "benefits",
+    "how",
+    "compare",
+    "imgtext",
+    "rings",
+    "beforeafter",
+    "videos",
+    "pillars",
+    "faq",
+    "pdpcta"
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "sections": {
+    "story": {
+      "type": "didiplay-story",
+      "settings": {
+        "eyebrow": "Our Story",
+        "heading": "Where Little Hands Learn to Create",
+        "body": "<p>didiplay started with one simple wish: give kids a way to fall in love with drawing — without another screen. Our Drawing Robot guides little artists stroke by stroke, building focus, confidence, and a lifelong love of making things by hand.</p><p>Today, more than 12,400 families in 47 countries draw with didiplay. We obsess over child-safe materials, thoughtful design, and support that treats you like a neighbor, not a ticket number.</p>",
+        "bg_class": "",
+        "cta_label": "Shop the Drawing Robot"
+      }
+    },
+    "why": {
+      "type": "didiplay-why",
+      "blocks": {
+        "w1": {
+          "type": "card",
+          "settings": {
+            "icon": "🚚",
+            "icon_bg": "#FFF1F6",
+            "title": "Free Worldwide Shipping",
+            "body": "Your child's new favorite toy ships free, anywhere in the world."
+          }
+        },
+        "w2": {
+          "type": "card",
+          "settings": {
+            "icon": "💬",
+            "icon_bg": "#F4EEFF",
+            "title": "Friendly 24/7 Support",
+            "body": "Real humans ready to help before and after your purchase."
+          }
+        },
+        "w3": {
+          "type": "card",
+          "settings": {
+            "icon": "🔒",
+            "icon_bg": "#E0FAF2",
+            "title": "Secure Checkout",
+            "body": "Encrypted, trusted payment — your details are always protected."
+          }
+        },
+        "w4": {
+          "type": "card",
+          "settings": {
+            "icon": "💖",
+            "icon_bg": "#FFF1F6",
+            "title": "30-Day Happiness Guarantee",
+            "body": "Not delighted? Send it back within 30 days for a full refund."
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4"
+      ],
+      "settings": {
+        "eyebrow": "The didiplay Promise",
+        "heading": "Why Thousands of Parents Choose didiplay",
+        "subheading": "Honest, reliable, and built around what your family actually needs."
+      }
+    },
+    "pillars": {
+      "type": "didiplay-pillars",
+      "blocks": {
+        "k1": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "💖",
+            "title": "30-Day Money-Back",
+            "body": "Love it or send it back, no questions asked."
+          }
+        },
+        "k2": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "🔒",
+            "title": "Secure Checkout",
+            "body": "SSL-encrypted. Your details are always safe."
+          }
+        },
+        "k3": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "🚚",
+            "title": "Free Worldwide Shipping",
+            "body": "Ships free, anywhere we can reach."
+          }
+        },
+        "k4": {
+          "type": "pillar",
+          "settings": {
+            "emoji": "💬",
+            "title": "Friendly Support",
+            "body": "Real humans, always happy to help."
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3",
+        "k4"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "story",
+    "why",
+    "pillars"
+  ]
+}

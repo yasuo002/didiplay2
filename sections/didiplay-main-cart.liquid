@@ -1,0 +1,42 @@
+{{ 'didiplay-styles.css' | asset_url | stylesheet_tag }}
+{{ 'didiplay-mobile.css' | asset_url | stylesheet_tag }}
+<section class="below-fold">
+  <div class="container" style="max-width:820px">
+    <div class="section-head reveal" style="margin-bottom:32px"><h1 style="margin:0">Your Cart</h1></div>
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        {%- for item in cart.items -%}
+          <div class="cart-item" style="grid-template-columns:80px 1fr auto">
+            {%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: item.title, loading: 'lazy', style: 'width:80px;height:80px;object-fit:cover;border-radius:14px' }}{%- else -%}<div style="width:80px;height:80px;border-radius:14px;background:var(--pink-wash)"></div>{%- endif -%}
+            <div class="ci-info">
+              <div class="ci-name"><a href="{{ item.url }}" style="color:inherit">{{ item.product.title }}</a></div>
+              {%- unless item.variant_title == 'Default Title' or item.variant_title == blank -%}<div class="ci-variant">{{ item.variant_title }}</div>{%- endunless -%}
+              <div class="ci-qty">
+                <a href="{{ item.url_to_remove }}" class="ci-remove" style="margin-right:8px" aria-label="Remove">Remove</a>
+              </div>
+            </div>
+            <div class="ci-right">
+              <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:62px;padding:8px;border:1px solid var(--line);border-radius:10px;text-align:center">
+              <div class="ci-price">{{ item.final_line_price | money }}</div>
+            </div>
+          </div>
+        {%- endfor -%}
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:16px;flex-wrap:wrap">
+          <button type="submit" name="update" class="btn btn-secondary">Update cart</button>
+          <div style="text-align:right">
+            <div style="font-size:1.3rem;font-weight:800;color:var(--ink);margin-bottom:12px">Subtotal: {{ cart.total_price | money }}</div>
+            <button type="submit" name="checkout" class="btn btn-primary btn-lg pulse">Checkout</button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="center" style="padding:40px 0">
+        <p style="font-size:1.1rem;color:var(--body);margin-bottom:20px">Your cart is empty.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary btn-lg">Start Shopping</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Cart", "settings": [], "presets": [{ "name": "Cart" }] }
+{% endschema %}

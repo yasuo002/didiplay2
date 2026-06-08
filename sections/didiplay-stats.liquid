@@ -1,0 +1,46 @@
+{{ 'didiplay-index.css' | asset_url | stylesheet_tag }}
+<section class="stats-bar didiplay-stats" id="shopify-section-{{ section.id }}-inner">
+  <div class="container stats-grid">
+    {%- for block in section.blocks -%}
+      <div class="stat reveal" {{ block.shopify_attributes }}>
+        <div class="num">
+          {%- if block.settings.is_decimal -%}
+            <span class="countup" data-target="{{ block.settings.value }}" data-decimals="1">0</span>{{ block.settings.suffix }}
+          {%- else -%}
+            <span class="countup" data-target="{{ block.settings.value }}">0</span>{{ block.settings.suffix }}
+          {%- endif -%}
+        </div>
+        <div class="label">{{ block.settings.label }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Stats bar",
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value (number)", "default": "12400" },
+        { "type": "text", "id": "suffix", "label": "Suffix", "default": "+" },
+        { "type": "checkbox", "id": "is_decimal", "label": "Decimal (e.g. 4.9)", "default": false },
+        { "type": "text", "id": "label", "label": "Label", "default": "Happy Families" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Stats bar",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "12400", "suffix": "+", "label": "Happy Families" } },
+        { "type": "stat", "settings": { "value": "38000", "suffix": "+", "label": "Robots Shipped" } },
+        { "type": "stat", "settings": { "value": "4.9", "suffix": "★", "is_decimal": true, "label": "Average Rating" } },
+        { "type": "stat", "settings": { "value": "47", "suffix": "", "label": "Countries Served" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
